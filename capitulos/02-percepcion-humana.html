@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Percepción Humana</title>
+  <meta name="description" content="Capítulo 2: el ciclo de corrección de 240 ms, los umbrales de movimiento, respuesta y continuidad, y cómo percibimos los mundos de juego.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="02-percepcion-humana">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 2 de 19</p>
+      <h1>Game feel y percepción humana</h1>
+      <p class="lede">
+        ¿Cuándo existe el control en tiempo real y cuándo se rompe? Swink responde con números: los tiempos de la percepción humana
+        fijan un límite que el juego tiene que respetar. Del lado del jugador nada se puede cambiar; del lado de la computadora, todo.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>
+        El libro toma el <strong>Procesador Humano Modelo</strong> de Card, Moran y Newell, que separa el ciclo de percibir, decidir y actuar
+        en tres procesadores:
+      </p>
+      <ul>
+        <li><strong>perceptivo:</strong> 100 ms, con un rango de 50 a 200;</li>
+        <li><strong>cognitivo:</strong> 70 ms, con un rango de 30 a 100;</li>
+        <li><strong>motor:</strong> 70 ms, con un rango de 25 a 170.</li>
+      </ul>
+      <p>
+        Encadenados forman un <strong>ciclo de corrección</strong> de unos 240 ms. Es el ritmo al que ajustamos cualquier movimiento preciso,
+        como agarrar algo de la mesa, manejar o guiar un personaje. Un juego "se enchufa" en ese ciclo: reemplaza al mundo físico como
+        destino de la acción y como fuente de lo que se percibe.
+      </p>
+      <p>Del lado de la computadora, el control en tiempo real se sostiene con tres umbrales:</p>
+      <ol>
+        <li><strong>Impresión de movimiento:</strong> más de 10 imágenes por segundo. Dentro de un mismo ciclo perceptivo, dos posiciones se funden en un objeto que se mueve.</li>
+        <li><strong>Respuesta instantánea:</strong> si el efecto llega dentro del mismo ciclo perceptivo que la acción, se lee como causa y efecto. Hasta 50 ms se siente inmediato y entre 50 y 100 ms, ajustado. Por encima de 100 ms el lag se nota, a 200 ms el control es lento, y pasados los 240 ms el control se rompe.</li>
+        <li><strong>Continuidad:</strong> el juego tiene que estar listo para aceptar input y responder a un ritmo constante, cada 100 ms o menos.</li>
+      </ol>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>100 + 70 + 70</b><span>percibir, decidir, actuar (ms)</span></div>
+          <div><b>240 ms</b><span>ciclo de corrección: límite del control en tiempo real</span></div>
+          <div><b>10 fps</b><span>umbral de la ilusión de movimiento; 30 ya es fluido</span></div>
+          <div><b>50–100 ms</b><span>respuesta "tight", según Mick West</span></div>
+          <div><b>≤ 100 ms</b><span>ciclo máximo para la continuidad</span></div>
+          <div><b>3 frames</b><span>a 60 fps (50 ms): retraso casi inevitable en un juego</span></div>
+        </div>
+      </div>
+
+      <h2>1. El ciclo de corrección, a la vista</h2>
+      <p>
+        El ejemplo del libro pide llevar el cursor encima de unos puntos lo más rápido posible. Nadie llega en un solo movimiento: hay un
+        primer impulso largo, un sobrepaso o un quedarse corto, y correcciones cada vez más pequeñas. Cada corrección es una vuelta completa
+        de percibir, decidir y actuar. La ley de Fitts lo resume: el tiempo crece con el logaritmo de la distancia dividida por el tamaño del
+        objetivo.
+      </p>
+    </article>
+
+    <div id="demo-correction"></div>
+
+    <article class="prose">
+      <h2>2. El umbral del movimiento</h2>
+      <p>
+        El procesador perceptivo toma algo así como una "foto" de los estímulos en cada ciclo. Si dos posiciones caen en la misma foto, se
+        perciben como un objeto en movimiento: es la <strong>fusión perceptiva</strong>, la misma que hace funcionar al cine y a la animación.
+        Diez imágenes por segundo es justo el borde.
+      </p>
+    </article>
+
+    <div id="demo-fps"></div>
+
+    <article class="prose">
+      <h2>3. Respuesta y continuidad</h2>
+      <p>
+        Los otros dos umbrales tienen su propio <a href="../laboratorio/lag.html">laboratorio de lag</a>: retraso, jitter, tope de fps y
+        tirones, con tareas puntuadas, un test ciego y un test de tiempo de reacción. Ahí también está el contraejemplo del capítulo: el golpe
+        fuerte de Zangief bloquea el control unos 750 ms y no molesta, porque lo eligió el jugador y tiene sentido en el mundo.
+      </p>
+
+      <h2>Percibir es actuar</h2>
+      <p>La segunda mitad del capítulo propone cinco ideas sobre la percepción que explican las experiencias del capítulo 1:</p>
+      <ul>
+        <li><strong>La percepción requiere acción.</strong> Los gatitos que crecieron atados en la oscuridad no aprendieron a ver, aunque recibieron los mismos estímulos que los que se movían libremente. Lo mismo vale para un mundo de juego: se conoce tanteándolo con el avatar.</li>
+        <li><strong>La percepción es una habilidad.</strong> Se practica y se automatiza. Lo que empieza como un movimiento "abstracto" y consciente termina siendo "concreto": pura intención traducida en acción.</li>
+        <li><strong>La percepción incluye ideas, generalizaciones y errores.</strong> El "campo perceptivo" de Snygg y Combs filtra todo lo nuevo a través de la experiencia previa. Por eso una abstracción coherente vale más que un detalle inconsistente: el jugador descubre las reglas del mundo en minutos y nota enseguida cuando se rompen.</li>
+        <li><strong>Es una experiencia de todo el cuerpo.</strong> Imagen, sonido, tacto y propiocepción se funden en una sola sensación, y por eso las contradicciones entre canales saltan a la vista.</li>
+        <li><strong>Las herramientas se vuelven parte del cuerpo.</strong> El bastón del ciego extiende su espacio corporal. El avatar va un paso más allá: no extiende el cuerpo del jugador, lo <em>sustituye</em> dentro del mundo del juego.</li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> los fps mínimos y su estabilidad, y la latencia del input a la imagen (filmando la pantalla y el control).</li>
+          <li><strong>Dura:</strong> si algún bloqueo de input supera un ciclo de corrección (240 ms) y si fue elegido por el jugador.</li>
+          <li><strong>Blanda:</strong> ¿el jugador siente que el avatar es una extensión suya? ¿Las reglas del mundo son coherentes cuando las tantea?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="../laboratorio/lag.html">laboratorio de lag</a> y la tarea de Fitts del
+        <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso del mouse</a>.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountCorrection, mountFrameRates } from '../assets/js/demos/ch02-perception.js';
+    mountCorrection('#demo-correction');
+    mountFrameRates('#demo-fps');
+    buildToc();
+  </script>
+</body>
+</html>

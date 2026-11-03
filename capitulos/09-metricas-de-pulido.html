@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Métricas de Pulido</title>
+  <meta name="description" content="Capítulo 9: animación, efectos visuales, sonido, efectos de cámara y táctiles, y cómo cambian la percepción de las propiedades físicas.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="09-metricas-de-pulido">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 9 de 19</p>
+      <h1>Métricas de pulido</h1>
+      <p class="lede">
+        El pulido es cualquier efecto que crea pistas artificiales sobre las propiedades físicas de los objetos cuando interactúan. No cambia la
+        simulación, pero el jugador lo percibe como si fuera parte de ella.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>
+        La lista de propiedades físicas de un manual es inútil para el diseño: la mayoría no se perciben. Lo que importa es lo que una persona
+        puede juzgar mirando, escuchando o tocando, aunque no sepa ponerle un número. Cualquiera distingue el té caliente del agua con hielo,
+        pero nadie adivina la temperatura exacta. El libro propone describir el pulido con propiedades perceptibles, como masa, momento,
+        fricción, forma, elasticidad y plasticidad, y clasificar los efectos en cinco tipos:
+      </p>
+      <ul>
+        <li><strong>Animación:</strong> el ejemplo clásico es la pelota que rebota en los cursos de animación. Las animaciones de carrera y salto de Jak and Daxter transmiten un peso que la simulación no tiene. En Mario, la animación de correr se acelera con la velocidad real.</li>
+        <li><strong>Efectos visuales:</strong> aparecen un instante donde dos objetos se tocan, como las chispas de un auto contra la valla o las astillas de una caja.</li>
+        <li><strong>Sonido:</strong> puede cambiar por completo lo que se percibe. En God of War, un golpe muy bien animado no convencía hasta que cambiaron su sonido.</li>
+        <li><strong>Efectos cinematográficos:</strong> temblor, cambios de ángulo, cámara lenta o una pausa de unos 20 ms en el impacto (hitstop). Se aplican a la cámara, el órgano de percepción del jugador.</li>
+        <li><strong>Efectos táctiles:</strong> la vibración del control, ideal para el retroceso de un arma.</li>
+      </ul>
+      <p>
+        El capítulo termina con tablas que desglosan, efecto por efecto, el pulido de Gears of War y de Castlevania: Dawn of Sorrow. Es un buen
+        modelo para auditar el pulido de cualquier juego.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>5</b><span>tipos de pulido: animación, visual, sonido, cámara y tacto</span></div>
+          <div><b>~20 ms</b><span>pausa en el impacto que enfatiza un golpe</span></div>
+          <div><b>1 sonido</b><span>alcanza para convertir un cruce en un choque</span></div>
+          <div><b>blanda</b><span>casi todo el pulido se mide con métricas blandas</span></div>
+        </div>
+      </div>
+
+      <h2>1. Un sonido cambia lo que se ve</h2>
+      <p>
+        Dos bolas rojas se cruzan en el centro de la pantalla. Solo con la imagen parecen fantasmas que se atraviesan. Si en el instante del cruce
+        suena un "ptoing" de pelota de tenis, la mayoría ve que chocan y rebotan. El movimiento es exactamente el mismo.
+      </p>
+    </article>
+
+    <div id="demo-bounce"></div>
+
+    <article class="prose">
+      <h2>2. Un golpe, capa por capa</h2>
+      <p>
+        La misma interacción con cada tipo de pulido activable por separado. Conviene probar las capas de a una, y también todas juntas sin sonido,
+        para medir cuánto aporta cada canal.
+      </p>
+    </article>
+
+    <div id="demo-hit"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Inventario:</strong> para cada interacción, qué animación, efecto visual, sonido, efecto de cámara y vibración tiene.</li>
+          <li><strong>Blanda:</strong> qué propiedades perceptibles sugiere cada objeto (masa, momento, fricción, forma, elasticidad, plasticidad) y si son coherentes entre sí.</li>
+          <li><strong>Blanda:</strong> si el pulido coincide con la simulación o la contradice; recuerda que el movimiento suele ganar.</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="05-metricas.html">capítulo 5</a> (cinco sets de pulido sobre la misma física) y la demo 3 del
+        <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso</a>.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountBounce, mountHitPolish } from '../assets/js/demos/ch09-polish.js';
+    mountBounce('#demo-bounce');
+    mountHitPolish('#demo-hit');
+    buildToc();
+  </script>
+</body>
+</html>

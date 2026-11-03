@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Métricas de Respuesta</title>
+  <meta name="description" content="Capítulo 7: envolventes ADSR, simulación, estados, filtrado y sensibilidad de la respuesta, con el cubo ADSR y las cuatro combinaciones de sensibilidad.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="07-metricas-de-respuesta">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 7 de 19</p>
+      <h1>Métricas de respuesta</h1>
+      <p class="lede">
+        El input llega como números; la respuesta es lo que el juego hace con ellos. Ese "qué hace", y sobre todo <em>cuándo</em> y
+        <em>cuánto</em> a lo largo del tiempo, es la mitad de la sensación de control que más se puede diseñar.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>
+        Una señal de input puede mover algo directamente, agregarle una fuerza, rotarlo o cambiar su estado. Y lo puede hacer en una, dos o tres
+        dimensiones, sobre uno o varios objetos. Para comparar respuestas entre juegos, Swink toma una herramienta de la síntesis de sonido:
+        la <strong>envolvente ADSR</strong>.
+      </p>
+      <ul>
+        <li><strong>Ataque:</strong> cuánto tarda en llegar al máximo después de pulsar. Si en los primeros 100 ms no pasa nada visible, se siente
+          poco responsivo. Un ataque largo con un arranque inmediato se siente suelto y orgánico. Uno corto y curvo, ajustado. Uno corto y lineal,
+          nervioso o rígido.</li>
+        <li><strong>Decaimiento:</strong> una caída del máximo hacia el nivel sostenido. Suele aparecer por accidente, como el "patinaje" de las
+          primeras betas de Counter-Strike, que permitía ir 1,5 veces más rápido.</li>
+        <li><strong>Sostenido:</strong> el nivel mientras se mantiene el input, como la velocidad máxima.</li>
+        <li><strong>Release:</strong> cuánto tarda en volver a cero al soltar. Mario frena tan suave como acelera; Jumpman, en Donkey Kong, se
+          detiene en seco.</li>
+      </ul>
+      <p>
+        Las envolventes salen de una <strong>simulación</strong>, como fuerzas, drag y velocidad máxima, o de <strong>filtrar</strong> el input
+        antes de usarlo, como la rotación con un leve ataque de la nave de Asteroids. Los <strong>estados</strong> multiplican lo que puede
+        expresar un mismo botón: izquierda y derecha empujan distinto en el suelo y en el aire. También cuentan las relaciones entre inputs:
+        combinaciones, secuencias y contexto.
+      </p>
+      <p>
+        Por último, input y respuesta juntos dan la <strong>sensibilidad virtual</strong> del sistema. Donkey Kong usa un joystick sensible con
+        una respuesta pobre; Super Mario Bros. usa una cruceta pobre con una respuesta muy sensible, y por eso es mucho más expresivo.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>100 ms</b><span>si en ese tiempo no hay cambio visible, se siente poco responsivo</span></div>
+          <div><b>~250 ms</b><span>el ataque suave del cubo del ejemplo CH07-1</span></div>
+          <div><b>1,5×</b><span>la velocidad extra del "patinaje" (decaimiento) en Counter-Strike</span></div>
+          <div><b>ADSR</b><span>la forma de cada respuesta: ataque, decaimiento, sostenido y release</span></div>
+        </div>
+      </div>
+
+      <h2>1. La envolvente sale de la simulación</h2>
+      <p>
+        El cubo suma una aceleración en cada paso mientras se pulsa, resta un drag proporcional a su velocidad y no pasa de una velocidad máxima.
+        Con esos tres números se puede ir de lo pesado a lo nervioso. La envolvente también se puede dibujar a mano en el
+        <a href="../laboratorio/curvas-de-respuesta.html">laboratorio de curvas</a>.
+      </p>
+    </article>
+
+    <div id="demo-adsr"></div>
+
+    <article class="prose">
+      <h2>2. Sensibilidad: input por respuesta</h2>
+      <p>
+        El ejemplo CH07-2 cruza dos variables: input poco o muy sensible (teclas o mouse) y respuesta poco o muy sensible (sin inercia o con fuerzas).
+        Cada combinación produce una sensación distinta, y la estela deja ver cuánta expresividad hay en cada una.
+      </p>
+    </article>
+
+    <div id="demo-sens"></div>
+
+    <article class="prose">
+      <h2>3. Estados: un botón, dos significados</h2>
+      <p>
+        Mario tiene un estado "suelo" y un estado "aire", y en cada uno izquierda y derecha empujan distinto. Es la forma más simple de sacarle
+        más sensibilidad a un input pobre. Los juegos de pelea llevan la idea más lejos: agachado, bloqueando o en el aire, cada botón cambia de
+        significado.
+      </p>
+    </article>
+
+    <div id="demo-states"></div>
+
+    <article class="prose">
+      <h2>4. Gestos y secuencias</h2>
+      <p>
+        Las relaciones entre inputs también forman parte de la respuesta. Una secuencia que entra dentro de una ventana de tiempo se lee como un
+        gesto distinto de sus partes, y unos pocos botones se convierten en muchas acciones.
+      </p>
+    </article>
+
+    <div id="demo-gestures"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> cuántos objetos controla el jugador.</li>
+          <li><strong>Dura:</strong> las dimensiones, el tipo y el marco de referencia del movimiento de cada avatar.</li>
+          <li><strong>Dura:</strong> la envolvente ADSR de cada parámetro que el input modula.</li>
+          <li><strong>Blanda:</strong> la sensibilidad global del sistema, como combinación de la sensibilidad del input y la de la respuesta.</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: el <a href="../laboratorio/curvas-de-respuesta.html">laboratorio de curvas</a> (editor de curva, ADSR, zonas muertas y
+        suavizados) y el de <a href="../laboratorio/peso-del-mouse.html">peso del mouse</a> (el cursor como caso límite).
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountAdsrCube, mountSensitivity, mountStates, mountGestures } from '../assets/js/demos/ch07-response.js';
+    mountAdsrCube('#demo-adsr');
+    mountSensitivity('#demo-sens');
+    mountStates('#demo-states');
+    mountGestures('#demo-gestures');
+    buildToc();
+  </script>
+</body>
+</html>

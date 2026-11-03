@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lag en las Respuestas</title>
+  <meta name="description" content="Laboratorio interactivo: latencia, jitter y fps, y dónde se rompe el control en tiempo real.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="lag">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#laboratorio">Laboratorio</a></p>
+      <p class="eyebrow">Laboratorio 3 · basado en el cap. 2</p>
+      <h1>Lag en las respuestas</h1>
+      <p class="lede">
+        En el mundo físico nada llega tarde: la mano empuja la taza y la taza se mueve en ese mismo instante. En un juego, entre tu dedo y
+        la imagen hay una cadena de pasos (leer el control, simular, dibujar, enviar al monitor), y cada uno cobra unos milisegundos.
+        Este laboratorio sirve para sentir cuántos milisegundos se pueden gastar antes de que el control deje de ser tuyo.
+      </p>
+
+      <p>
+        El capítulo 2 explica el control en tiempo real desde el lado humano. Swink usa el <strong>Procesador Humano Modelo</strong> de
+        Card, Moran y Newell, que divide el ciclo de percibir, decidir y actuar en tres procesadores:
+      </p>
+      <ul>
+        <li><strong>perceptivo:</strong> unos 100 ms;</li>
+        <li><strong>cognitivo:</strong> unos 70 ms;</li>
+        <li><strong>motor:</strong> unos 70 ms.</li>
+      </ul>
+      <p>
+        Juntos dan un <strong>ciclo de corrección</strong> de unos 240 ms. Es el ritmo al que hacemos los pequeños ajustes con los que
+        manejamos un auto, agarramos una taza o guiamos a un personaje.
+      </p>
+      <p>
+        Del lado de la computadora, el control en tiempo real depende de que se sostengan tres umbrales. Este laboratorio separa los tres
+        para que puedas romperlos de a uno:
+      </p>
+      <ol>
+        <li><strong>Impresión de movimiento:</strong> más de 10 imágenes por segundo. Con 20 mejora y con 30 ya es fluida.</li>
+        <li><strong>Respuesta instantánea:</strong> del input a la imagen en menos de un ciclo de corrección. Cuanto menos, mejor.</li>
+        <li><strong>Continuidad:</strong> el juego tiene que estar listo para leer input y responder a un ritmo constante de 100 ms o menos. Si responde a saltos, el flujo se corta.</li>
+      </ol>
+
+      <div class="callout numbers">
+        <h4>Números clave (cap. 2)</h4>
+        <div class="numbers-grid">
+          <div><b>≤ 50 ms</b><span>se siente instantáneo</span></div>
+          <div><b>50–100 ms</b><span>"tight": ajustado, responsivo</span></div>
+          <div><b>100–200 ms</b><span>se nota, pero se puede ignorar</span></div>
+          <div><b>~200 ms</b><span>lento, pesado</span></div>
+          <div><b>&gt; 240 ms</b><span>el control en tiempo real se rompe</span></div>
+          <div><b>10 fps</b><span>umbral de la ilusión de movimiento</span></div>
+          <div><b>100 ms</b><span>ciclo máximo para la continuidad</span></div>
+          <div><b>3 frames</b><span>a 60 fps son 50 ms: un piso casi inevitable</span></div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <h4>Tu equipo ya tiene lag</h4>
+        <p>
+          Todo lo que inyectamos aquí se <em>suma</em> a la latencia que tu sistema ya tiene. El mouse o el teclado reportan cada pocos
+          milisegundos, el navegador espera al siguiente refresco y el monitor tarda en encender los píxeles. En un equipo común eso suma
+          entre 10 y 50 ms, y bastante más en algunos televisores. Por eso "0 ms" en los sliders no es cero de verdad. Los valores medidos de
+          la demo 1 cubren solo el tramo que controla la página, desde que el navegador recibe el evento hasta que dibuja el frame.
+        </p>
+      </div>
+
+      <h2>1. El mismo control, tarde</h2>
+      <p>
+        Un cuadrado que sigue al mouse es lo más directo que hay: sin física, sin curva, sin nada. Justamente por eso es el mejor lugar para
+        notar el lag, porque cualquier distancia entre tu mano y el cuadrado <em>es</em> retraso. El círculo hueco marca dónde está tu mano
+        de verdad.
+      </p>
+      <p>
+        Los modos <kbd>6</kbd>–<kbd>8</kbd> rompen la <em>continuidad</em> en lugar de la respuesta: la imagen se actualiza poco o se
+        congela al azar. El retraso medio puede ser bajo y aun así el control se siente roto, porque los ajustes ya no llegan de forma pareja.
+      </p>
+    </article>
+
+    <div id="demo-live"></div>
+
+    <article class="prose">
+      <p>
+        La <strong>predicción</strong> es la mitigación más tentadora. Si el juego sabe a qué velocidad se mueve tu mano, puede dibujar el
+        cuadrado donde <em>estará</em> cuando el input llegue. Funciona en las rectas y falla justo donde más importa, en las frenadas y los
+        cambios de dirección: ahí se pasa de largo y vuelve. Las redes de los juegos online usan versiones mucho más elaboradas de esta idea.
+      </p>
+
+      <h2>2. Tareas: lo que el lag le hace al puntaje</h2>
+      <p>
+        Las sensaciones se discuten; los puntajes, no tanto. Estas dos tareas convierten el lag en una curva. <strong>Seguir</strong> es
+        una cadena de correcciones continuas, como manejar, y el error crece de forma pareja con el retraso. <strong>Apuntar</strong>
+        es la tarea de Fitts que ya vimos en el <a href="peso-del-mouse.html">laboratorio de peso</a>. Con lag aparece el patrón típico:
+        mueves la mano, todavía no ves llegar el cursor, sigues moviendo y te pasas.
+      </p>
+    </article>
+
+    <div id="demo-tasks"></div>
+
+    <article class="prose">
+      <h2>3. Saltos: el lag en el espacio</h2>
+      <p>
+        En un plataformero el lag se traduce en distancia: si corres a 340 px/s y el juego tarda 200 ms en leer el salto, despegas 68 px después
+        de donde pulsaste. Lo curioso es que un lag <em>constante</em> se puede aprender, porque empiezas a pulsar antes sin darte cuenta.
+        Por eso el jitter, un retraso que cambia en cada pulsación, es tan dañino: no hay nada fijo que aprender.
+      </p>
+    </article>
+
+    <div id="demo-jumps"></div>
+
+    <article class="prose">
+      <h2>4. ¿Cuánto lag notas tú?</h2>
+      <p>
+        Los umbrales del libro son promedios. Este test ciego estima el tuyo con una <strong>escalera adaptativa</strong>, un método clásico
+        de la psicofísica. La diferencia entre A y B se achica cuando aciertas y se agranda cuando fallas, hasta que oscila alrededor del
+        punto donde ya no la distingues con seguridad. Probarlo con distintas latencias base ayuda a entender por qué un juego que ya va
+        lento "absorbe" mejor un poco más de lag.
+      </p>
+    </article>
+
+    <div id="demo-ab"></div>
+
+    <article class="prose">
+      <h2>5. Tiempo de reacción</h2>
+      <p>
+        Swink recomienda medir el propio tiempo de reacción para sentir lo cortos que son estos intervalos. Él cuenta que su mejor marca ronda
+        los 170 ms. Reaccionar a un estímulo que llega sin aviso es un ciclo completo de percibir, decidir y actuar, así que tus tiempos deberían
+        caer cerca de la barra del modelo. Fíjate en que la latencia añadida se suma tal cual: el jugador no puede compensarla, porque no sabe
+        cuándo llegará el estímulo.
+      </p>
+    </article>
+
+    <div id="demo-reaction"></div>
+
+    <article class="prose">
+      <h2>6. Mitigaciones: si no puedes quitarlo, disimúlalo</h2>
+      <p>
+        A veces el lag no se puede eliminar: hay red, hay procesamiento, hay un televisor lento. Lo que sí se puede es que <em>algo</em> responda
+        dentro del primer ciclo perceptivo, aunque la acción completa llegue después. El libro lo dice al cerrar el capítulo: un tiempo de
+        respuesta lento se puede suavizar con input gestual o reproduciendo animaciones.
+      </p>
+      <ul>
+        <li><strong>Feedback inmediato:</strong> un sonido o una luz que responden al <em>botón</em>, no al resultado. Cuestan casi nada.</li>
+        <li><strong>Anticipación:</strong> una animación de preparación que arranca en el acto. El jugador lee "ya empezó", y el retraso queda escondido dentro del gesto.</li>
+        <li><strong>Buffer de input:</strong> no reduce el lag, pero perdona las pulsaciones adelantadas. Cuando hay lag los jugadores aprenden a pulsar antes, y el buffer evita que esas pulsaciones se pierdan.</li>
+      </ul>
+    </article>
+
+    <div id="demo-mitigation"></div>
+
+    <article class="prose">
+      <h2>7. Lag elegido frente a lag impuesto</h2>
+      <p>
+        El ejemplo del libro es el golpe fuerte de Zangief en <em>Street Fighter II</em>: unos 750 ms sin control, el triple de un ciclo de
+        corrección. Y sin embargo no se siente como lag. Swink da tres razones:
+      </p>
+      <ul>
+        <li>el jugador <strong>eligió</strong> cuándo dispararlo;</li>
+        <li>es un <strong>riesgo a cambio de una recompensa</strong>;</li>
+        <li><strong>tiene sentido en el mundo</strong>: un tipo enorme, un golpe enorme, que tarda en salir.</li>
+      </ul>
+      <p>
+        La continuidad se rompe sin que se rompa la sensación de control. La demo aísla esas variables: el mismo bloqueo elegido y animado,
+        elegido pero sin animación, y el mismo bloqueo impuesto por el sistema.
+      </p>
+    </article>
+
+    <div id="demo-chosen"></div>
+
+    <article class="prose">
+      <h2>Qué llevarse</h2>
+      <ul>
+        <li><strong>Mide antes de opinar.</strong> Mick West propone filmar la pantalla y el control a la vez y contar frames entre la pulsación y la reacción.</li>
+        <li><strong>Cuida el ritmo, no solo el promedio.</strong> Un juego a 30 fps estables se siente mejor que uno que oscila entre 60 y 15.</li>
+        <li><strong>Responde algo ya.</strong> Si la acción tiene que esperar, el sonido, la luz o la anticipación no.</li>
+        <li><strong>Haz que los bloqueos sean decisiones.</strong> El mismo tiempo sin control se siente como un fallo o como peso, según quién lo decidió y cómo se ve.</li>
+      </ul>
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> la latencia del input a la imagen (ms), medida de punta a punta, con cámara si hace falta.</li>
+          <li><strong>Dura:</strong> los fps mínimos y su estabilidad: frames por encima de 100 ms y tirones por minuto.</li>
+          <li><strong>Dura:</strong> el error de seguimiento, el tiempo por objetivo y la tasa de éxito en saltos, según la latencia.</li>
+          <li><strong>Dura:</strong> el umbral de detección del jugador (test A/B) y su tiempo de reacción.</li>
+          <li><strong>Blanda:</strong> ¿el jugador siente que controla al personaje o que le da órdenes? ¿Los bloqueos se leen como peso o como fallo?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: el <a href="curvas-de-respuesta.html">laboratorio de curvas</a> muestra que el suavizado también es retraso, y el de
+        <a href="peso-del-mouse.html">peso del mouse</a>, que la inercia se lee como masa o como lag según cuánto tarde en responder.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountLagLive } from '../assets/js/demos/lab-lag-live.js';
+    import { mountLagTasks } from '../assets/js/demos/lab-lag-tasks.js';
+    import { mountLagJumps } from '../assets/js/demos/lab-lag-jumps.js';
+    import { mountLagAB } from '../assets/js/demos/lab-lag-ab.js';
+    import { mountLagReaction } from '../assets/js/demos/lab-lag-reaction.js';
+    import { mountLagMitigation } from '../assets/js/demos/lab-lag-mitigation.js';
+    import { mountLagChosen } from '../assets/js/demos/lab-lag-chosen.js';
+    mountLagLive('#demo-live');
+    mountLagTasks('#demo-tasks');
+    mountLagJumps('#demo-jumps');
+    mountLagAB('#demo-ab');
+    mountLagReaction('#demo-reaction');
+    mountLagMitigation('#demo-mitigation');
+    mountLagChosen('#demo-chosen');
+    buildToc();
+  </script>
+</body>
+</html>

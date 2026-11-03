@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mecánicas del Game Feel</title>
+  <meta name="description" content="Capítulo 4: cómo decidir si una mecánica tiene game feel, aplicado a Street Fighter II, Prince of Persia, Guitar Hero y Kirby: Canvas Curse.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="04-mecanicas">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 4 de 19</p>
+      <h1>Mecánicas del game feel</h1>
+      <p class="lede">
+        Con la definición y los umbrales en la mano, Swink los pone a prueba con juegos que están en el borde. Para eso descompone cada
+        juego en <strong>mecánicas</strong>: los átomos del game feel.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>
+        Una mecánica es un bucle completo de interacción que se puede seguir del input a la respuesta y de vuelta al jugador, una y otra vez.
+        Es un <em>verbo</em> del jugador: saltar con A, mover a Mario con la cruceta, rasguear en Guitar Hero o arrastrar un recuadro de
+        selección en Starcraft. Las preguntas se hacen mecánica por mecánica y después para el sistema completo:
+      </p>
+      <ol>
+        <li>¿Tiene <strong>control en tiempo real</strong>? Imagen a 10 fps o más, respuesta dentro de un ciclo perceptivo y un bucle continuo que permita corregir.</li>
+        <li>¿Hay <strong>espacio simulado</strong> que el jugador perciba activamente?</li>
+        <li>¿El <strong>pulido</strong> enfatiza esas interacciones?</li>
+      </ol>
+      <ul>
+        <li><strong>Street Fighter II:</strong> caminar es tiempo real puro. Los golpes bloquean el control (los fuertes, casi un segundo), y el salto fija la trayectoria. Aun así, el sistema completo se siente controlado: los bloqueos se eligen, se pueden encadenar con otras acciones y tienen sentido en el mundo.</li>
+        <li><strong>Prince of Persia:</strong> la animación manda. Pasar de quieto a correr lleva casi 900 ms, y durante ese tiempo lo que pulse el jugador no sirve de nada. Solo el paso corto, con pocos frames, se siente en tiempo real, y por eso es el que se usa entre cuchillas. Que las animaciones tengan puntos de bifurcación ayuda: el jugador mantiene la tecla apretada "por si acaso" y siente que el juego lo escucha más de lo que lo hace.</li>
+        <li><strong>Guitar Hero:</strong> la respuesta es instantánea, pero no hay continuidad: cada rasgueo empieza y termina. La palanca de trémolo es continua, pero no hay espacio simulado que tantear. Tiene pulido y momentos de control, no game feel.</li>
+        <li><strong>Kirby: Canvas Curse:</strong> al dibujar corriges tu propio trazo, como con lápiz y papel, y Kirby lo sigue indirectamente. Hay espacio simulado y pulido, pero el jugador no lo percibe a través del cuerpo de Kirby.</li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>≥ 10 fps</b><span>impresión de movimiento (20 o más, fluido)</span></div>
+          <div><b>≤ 100 ms</b><span>respuesta que se lee como causa y efecto</span></div>
+          <div><b>~900 ms</b><span>de quieto a correr en Prince of Persia: control roto</span></div>
+          <div><b>~150 ms</b><span>el paso corto: casi tiempo real</span></div>
+        </div>
+      </div>
+
+      <h2>1. Tres maneras de controlar lo mismo</h2>
+      <p>
+        El mismo nivel, el mismo personaje y los mismos guardias, con tres tipos de control. Solo uno permite un ciclo de corrección continuo.
+      </p>
+    </article>
+
+    <div id="demo-types"></div>
+
+    <article class="prose">
+      <h2>2. Cuando la animación manda</h2>
+      <p>
+        Esta demo es un sandbox de la mecánica analizada en el capítulo, con formas abstractas: arranques y frenadas que bloquean el control,
+        el mismo personaje con respuesta inmediata y el paso corto. Puedes ajustar la duración de cada animación.
+      </p>
+    </article>
+
+    <div id="demo-anim"></div>
+
+    <article class="prose">
+      <h2>3. Checklist: ¿tu mecánica tiene game feel?</h2>
+      <p>
+        Responde las preguntas para una mecánica de tu juego, o haz clic en un caso del libro para ver cómo lo clasifica Swink. El diagrama
+        marca dónde cae.
+      </p>
+      <div id="checklist"></div>
+
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> la lista de mecánicas (verbos) del juego y, para cada una, los fps, la respuesta en ms y la duración de cualquier bloqueo de input.</li>
+          <li><strong>Dura:</strong> los bloqueos de más de 240 ms: ¿los elige el jugador?</li>
+          <li><strong>Blanda:</strong> ¿el sistema completo se siente controlado aunque alguna mecánica suelta no lo sea?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: "lag elegido frente a lag impuesto" en el <a href="../laboratorio/lag.html">laboratorio de lag</a>.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountControlTypes, mountAnimLock } from '../assets/js/demos/ch04-mechanics.js';
+    import { mountChecklist } from '../assets/js/demos/ch04-checklist.js';
+    mountControlTypes('#demo-types');
+    mountAnimLock('#demo-anim');
+    mountChecklist('#checklist');
+    buildToc();
+  </script>
+</body>
+</html>

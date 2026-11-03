@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plataformas</title>
+  <meta name="description" content="Capítulo 13: análisis de Super Mario Bros. con las seis métricas, y un sandbox de plataformas que se construye parámetro por parámetro.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="13-super-mario-bros">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 13 de 19 · caso de estudio</p>
+      <h1>Caso: plataformas (Super Mario Bros.)</h1>
+      <p class="lede">
+        Con una cruceta y dos botones, Super Mario Bros. logró una de las sensaciones de control más expresivas de su época. Lo interesante es que,
+        visto como simulación, Mario es un rectángulo.
+      </p>
+
+      <h2>Análisis con las seis métricas</h2>
+      <ul>
+        <li><strong>Input:</strong> seis botones de dos estados. En el control original no se pueden pulsar direcciones opuestas a la vez; en el teclado sí, y eso ya cambia la sensación.</li>
+        <li><strong>Respuesta en X:</strong>
+          <ul>
+            <li>aceleración hasta una velocidad máxima y una desaceleración propia al soltar;</li>
+            <li>el botón B no aplica una fuerza: cambia la aceleración y la velocidad máxima, como un modificador de estado;</li>
+            <li>la carrera se siente rápida por contraste con la caminata.</li>
+          </ul>
+        </li>
+        <li><strong>Respuesta en Y:</strong>
+          <ul>
+            <li>gravedad constante;</li>
+            <li>un impulso hacia arriba en el instante en que se pulsa, que hace que el salto se sienta inmediato;</li>
+            <li>desde el ápice, la gravedad se multiplica, con una velocidad terminal;</li>
+            <li>la altura depende de cuánto se mantiene el botón: entre un bloque y medio y unos cinco, según se suelte entre un frame y medio segundo.</li>
+          </ul>
+        </li>
+        <li><strong>Estados:</strong> en el aire, izquierda y derecha empujan menos que en el suelo. Es un mismo input con dos significados.</li>
+        <li><strong>Contexto:</strong> la altura máxima del salto y la separación de bloques, huecos y enemigos se diseñaron juntas. Si se quitan suelos, el mismo salto se vuelve otro juego.</li>
+        <li><strong>Pulido:</strong> la animación de correr se acelera con la velocidad, hay una pose de derrape, los ladrillos saltan cuando Mario chico los golpea y se rompen con Mario grande. Hay muy pocos efectos visuales.</li>
+        <li><strong>Metáfora y reglas:</strong> un fontanero, hongos y tortugas. Los Goombas son más débiles que las tortugas, y las monedas y los hongos cambian lo que vale la pena hacer.</li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>2 + 2</b><span>aceleraciones y velocidades máximas: caminar y correr</span></div>
+          <div><b>×3</b><span>la gravedad desde el ápice del salto</span></div>
+          <div><b>1,5 a 5</b><span>bloques de altura según cuánto se mantiene el botón</span></div>
+          <div><b>~0,5 s</b><span>el máximo tiempo en que el salto acepta input</span></div>
+        </div>
+      </div>
+
+      <h2>1. La receta, paso a paso</h2>
+      <p>
+        Como en el ejemplo del libro, el rectángulo empieza quieto y con todos los parámetros a cero. Súbelos en el orden del capítulo:
+        primero la horizontal, después correr y por último el salto. Las métricas muestran la altura de cada salto en bloques.
+        El nivel se puede editar con clic.
+      </p>
+    </article>
+
+    <div id="demo-rect"></div>
+
+    <article class="prose">
+      <h2>2. La misma física con representación</h2>
+      <p>
+        El segundo ejemplo cambia el rectángulo por un personaje y les da forma a los bloques. Las respuestas de los ladrillos
+        se pueden apagar por separado.
+      </p>
+    </article>
+
+    <div id="demo-char"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> aceleración, desaceleración y velocidad máxima, al caminar y al correr.</li>
+          <li><strong>Dura:</strong> la velocidad de salto, la gravedad al subir y al caer, la velocidad terminal y las alturas mínima y máxima en bloques.</li>
+          <li><strong>Dura:</strong> el control aéreo comparado con el del suelo.</li>
+          <li><strong>Blanda:</strong> ¿el salto se siente inmediato y a la vez maleable? ¿El nivel aprovecha todo el rango de alturas?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: los estados suelo/aire del <a href="07-metricas-de-respuesta.html">capítulo 7</a> y el
+        <a href="../laboratorio/curvas-de-respuesta.html">laboratorio de curvas</a> (envolvente ADSR).
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountRectangle, mountCharacter } from '../assets/js/demos/ch13-platformer.js';
+    mountRectangle('#demo-rect');
+    mountCharacter('#demo-char');
+    buildToc();
+  </script>
+</body>
+</html>

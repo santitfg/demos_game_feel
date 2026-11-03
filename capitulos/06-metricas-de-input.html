@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Métricas de Input</title>
+  <meta name="description" content="Capítulo 6: cómo medir el input: señales, estados, ejes, límites, sensibilidad y la física del dispositivo, con un visualizador de señales.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="06-metricas-de-input">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 6 de 19</p>
+      <h1>Métricas de input</h1>
+      <p class="lede">
+        Beethoven compuso para pianos frágiles y limitados, y su música cambió cuando cambiaron los pianos. El dispositivo de input es el
+        instrumento del jugador: sus límites marcan qué sensaciones de control son posibles antes de escribir una línea de código.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>Swink mide el input en tres niveles:</p>
+      <ol>
+        <li><strong>Micro: cada input por separado.</strong> Se mide en qué dimensiones se mueve, si sigue una posición o una fuerza, si
+          cambia algo en pantalla de forma directa o indirecta, qué límites tiene su recorrido y qué señal le manda a la computadora.
+          <ul>
+            <li>Un botón es un booleano.</li>
+            <li>Un gatillo es un float de 0 a 1, aunque en la práctica pasa por pocos valores intermedios al apretarlo.</li>
+            <li>Un stick son dos floats con un borde físico.</li>
+            <li>El mouse da miles de estados y casi no tiene bordes.</li>
+          </ul>
+        </li>
+        <li><strong>Macro: el dispositivo completo.</strong> Cuántos inputs tiene y cómo se pueden combinar. Un control de Xbox 360 tiene
+          15. En la cruceta de NES casi todo se combina, salvo las direcciones opuestas.</li>
+        <li><strong>Táctil: el diseño físico.</strong> Peso, materiales, la calidad y la resistencia de los botones, la forma de la carcasa
+          del stick. El encaje octogonal del stick de Nintendo 64 no se siente igual que la carcasa redonda del de PlayStation 2.</li>
+      </ol>
+      <p>
+        La <strong>sensibilidad</strong> es una métrica blanda que resume todo esto: cuánta información fina puede expresar el jugador.
+        El control de NES tiene más inputs que un mouse, pero es mucho menos sensible.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Input</th><th>Señal</th><th>Estados</th><th>Límites</th></tr></thead>
+            <tbody>
+              <tr><td>Botón</td><td>booleano</td><td>2</td><td>dos topes duros</td></tr>
+              <tr><td>Gatillo</td><td>float 0…1</td><td>pocos en la práctica</td><td>dos topes, con resorte</td></tr>
+              <tr><td>Paddle</td><td>float, rotación</td><td>cientos</td><td>dos topes</td></tr>
+              <tr><td>Stick</td><td>dos floats −1…1</td><td>cientos por eje</td><td>un borde circular o en octágono</td></tr>
+              <tr><td>Mouse</td><td>deltas x, y</td><td>miles</td><td>casi ninguno (el escritorio)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2>1. Las señales, en vivo</h2>
+      <p>
+        Lo que la computadora recibe es siempre un número. Este visualizador muestra los números de cada tipo de input y cómo cambian en el tiempo.
+        Si no tienes gamepad, el gatillo y el stick se simulan con el teclado y el mouse.
+      </p>
+    </article>
+
+    <div id="demo-signals"></div>
+
+    <article class="prose">
+      <p>
+        La zona muerta y el ruido del stick tienen un laboratorio propio: la demo de zonas muertas del
+        <a href="../laboratorio/curvas-de-respuesta.html">laboratorio de curvas</a> compara las variantes axial, radial y radial escalada.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> para cada input, sus dimensiones, tipo de movimiento, posición o fuerza, si es directo o indirecto, sus límites y su señal.</li>
+          <li><strong>Dura:</strong> cuántos inputs tiene el dispositivo y qué combinaciones permite.</li>
+          <li><strong>Blanda:</strong> la sensibilidad del input y la sensación física del control: peso, materiales y calidad de los botones.</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="05-metricas.html">capítulo 5</a> (teclado frente a stick) y la demo de ratio C:D del
+        <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso</a>.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountSignals } from '../assets/js/demos/ch06-input.js';
+    mountSignals('#demo-signals');
+    buildToc();
+  </script>
+</body>
+</html>

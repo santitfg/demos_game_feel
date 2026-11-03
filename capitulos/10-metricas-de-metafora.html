@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Métricas de Metáfora</title>
+  <meta name="description" content="Capítulo 10: representación y tratamiento, el triángulo realista–icónico–abstracto y las expectativas que la metáfora crea sobre el movimiento.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="10-metricas-de-metafora">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 10 de 19</p>
+      <h1>Métricas de metáfora</h1>
+      <p class="lede">
+        "Esto no se siente como un caballo." Esa queja aparece cuando lo que el jugador espera, porque el objeto parece un caballo, no coincide con
+        cómo se mueve. La metáfora fija expectativas antes de que el jugador toque el control.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>La metáfora tiene dos partes:</p>
+      <ul>
+        <li><strong>Representación:</strong> la idea de la cosa. ¿Es un auto, un cubo de gelatina o un héroe de pelo puntiagudo? Si se reemplaza todo el arte y el sonido de Diablo por manchas de Pollock y pulsos electrónicos, el juego funciona igual, pero los jugadores pierden el gancho para entender cada objeto.</li>
+        <li><strong>Tratamiento:</strong> qué tan realista, icónica o abstracta es esa representación. Swink usa el triángulo de Scott McCloud: en un vértice la realidad fotográfica, en otro lo icónico (abstracto pero con significado) y en el tercero la abstracción pura, formas que no representan nada.</li>
+      </ul>
+      <p>
+        Cuanto más realista es el tratamiento, más se espera que todo se comporte como en el mundo físico. Project Gotham 3, muy realista, promete
+        autos con física de autos. Mario Kart, icónico, puede permitirse saltos y derrapes imposibles sin que nadie proteste. Una forma abstracta no
+        promete nada.
+      </p>
+      <p>
+        Es la cata a ciegas. Con las etiquetas a la vista, los vinos famosos siempre ganan; a ciegas, en la cata de París de 1976, unos vinos de
+        California les ganaron a los grandes franceses. Lo que el jugador espera cambia lo que percibe.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Criterios clave</h4>
+        <div class="numbers-grid">
+          <div><b>2 partes</b><span>representación (qué es) y tratamiento (qué tan realista)</span></div>
+          <div><b>3 vértices</b><span>realista, icónico y abstracto</span></div>
+          <div><b>+ realista</b><span>más expectativas que cumplir</span></div>
+          <div><b>blanda</b><span>se mide comparando lo esperado con lo que pasa</span></div>
+        </div>
+      </div>
+
+      <h2>1. La misma física, cuatro pieles</h2>
+      <p>
+        El movimiento es idéntico para las cuatro pieles. Lo que cambia es lo que cada una promete, y por lo tanto qué se siente "mal".
+      </p>
+    </article>
+
+    <div id="demo-metaphor"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li>¿Qué representan los objetos del juego?</li>
+          <li>¿Dónde cae el tratamiento en el triángulo: realista, icónico o abstracto?</li>
+          <li>Según la metáfora, ¿qué comportamientos, efectos, animaciones y movimientos se esperan? ¿Coinciden la respuesta, el contexto y el pulido con esas expectativas?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="09-metricas-de-pulido.html">capítulo 9</a> (pulido) y la demo 3 del
+        <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso</a>: la apariencia contra el movimiento.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountMetaphor } from '../assets/js/demos/ch10-metaphor.js';
+    mountMetaphor('#demo-metaphor');
+    buildToc();
+  </script>
+</body>
+</html>

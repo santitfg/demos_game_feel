@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Principios del Game Feel</title>
+  <meta name="description" content="Capítulo 17: los siete principios del buen game feel (resultados predecibles, respuesta instantánea, fácil pero profundo, novedad, respuesta atractiva, movimiento orgánico y armonía), con una demo por principio.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="17-principios">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 17 de 19</p>
+      <h1>Principios del game feel</h1>
+      <p class="lede">
+        Después de medir y de desarmar cinco juegos, el libro propone siete principios generales. El autor los compara con los principios
+        de la animación: no pretenden ser una lista cerrada, sino un buen punto de partida.
+      </p>
+
+      <h2>Los siete principios</h2>
+      <ol>
+        <li><strong>Resultados predecibles.</strong> El jugador obtiene la respuesta que espera. No significa que sea fácil, sino que no hay
+          interferencia entre la intención y el resultado. Hay tres trampas:
+          <ul>
+            <li><em>Ambigüedad de control:</em> dos botones pulsados "a la vez" que la computadora distingue por milisegundos y el jugador no.
+              El libro cita a Mick West con un ejemplo de Super Mario 64: según qué botón llegue primero, sale un golpe al suelo, un mortal o un
+              salto normal, y el jugador no puede controlarlo.</li>
+            <li><em>Exceso de estados:</em> si el jugador no percibe cuándo cambia de estado, y en cada estado cada botón hace otra cosa, el
+              input se vuelve aleatorio. Lo racional entonces es apretar botones al azar.</li>
+            <li><em>Puesta en escena:</em> si el resultado pasa demasiado rápido o se pierde entre otros movimientos, no se puede reproducir.
+              Hay que mostrarlo claro e inmediato, aunque sea exagerándolo.</li>
+          </ul>
+        </li>
+        <li><strong>Respuesta instantánea.</strong> No exige un ataque corto: el vehículo de Halo tiene un control suelto y fluido, pero gira
+          enseguida, y más rápido cuanto más lejos está la nueva dirección. Lo grande ocurre al principio y el final puede ser largo. Lo que se
+          siente mal es una demora de más de ~100 ms hasta percibir <em>algún</em> resultado.</li>
+        <li><strong>Fácil pero profundo.</strong> Minutos para aprender, una vida para dominar. Lo fácil sale de mapeos naturales (el stick que
+          se mueve como la nave) y de convenciones (WASD, el volante). Lo profundo es más difícil: se puede agregar sensibilidad al control y
+          sostenerla con reglas y contexto; registrar el tiempo de una tarea o permitir competir vuelve el techo de habilidad casi infinito.</li>
+        <li><strong>Novedad.</strong> Aunque el resultado sea predecible, debe haber variaciones sutiles que mantengan fresco el control. La
+          animación lineal se agota: el mismo golpe diez mil veces aburre. La simulación física ayuda porque el jugador nunca da el mismo input
+          dos veces, como en el mundo real.</li>
+        <li><strong>Respuesta atractiva.</strong> Sin contexto, en un espacio vacío, el control debería ser lindo de por sí. Las capas de
+          animación ayudan, y conviene cuidar especialmente los estados de fracaso, porque ahí el jugador pasa mucho tiempo.</li>
+        <li><strong>Movimiento orgánico.</strong> Los arcos atraen más que las líneas rectas. Fijar la posición cada frame da un movimiento
+          rígido; cambiar una velocidad con fuerzas da curvas.</li>
+        <li><strong>Armonía.</strong> Todos los elementos sostienen una única realidad física. Si algo parece un auto, debe manejarse, sonar y
+          chocar como un auto. Cuanto más realista es la apariencia, más difícil es cumplir; la clave es una <em>abstracción consistente</em> en
+          imagen, sonido, movimiento y reglas.</li>
+      </ol>
+      <p>
+        El capítulo cierra con la idea de <strong>apropiación</strong>: cuando el control es lo bastante sensible y flexible, el jugador
+        improvisa, se expresa y siente el juego como propio. Ahí es donde un juego se vuelve "rejugable".
+      </p>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>7</b><span>principios, en paralelo a los de la animación</span></div>
+          <div><b>70–100 ms</b><span>para que algún resultado se perciba como inmediato</span></div>
+          <div><b>3</b><span>trampas de la predictibilidad: ambigüedad, estados, puesta en escena</span></div>
+        </div>
+      </div>
+
+      <h2>1. Respuesta atractiva: sin contexto</h2>
+      <p>
+        Es el ejemplo CH17-2 del libro: las cuatro combinaciones de sensibilidad de input y de reacción del
+        <a href="07-metricas-de-respuesta.html">capítulo 7</a>, pero sin objetivos, sin cuadrícula y sin nada alrededor. Solo queda la pregunta
+        de si moverlo es lindo.
+      </p>
+    </article>
+
+    <div id="demo-sensations"></div>
+
+    <article class="prose">
+      <h2>2. Un interruptor por principio</h2>
+      <p>
+        Seis mini-escenas, una por principio (la respuesta atractiva ya tiene la suya arriba). Cada una se juega igual con el principio
+        aplicado o sin aplicar: <kbd>P</kbd> o la casilla del panel lo alterna.
+      </p>
+    </article>
+
+    <div id="demo-principles"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> el tiempo hasta el primer resultado visible de cada input.</li>
+          <li><strong>Dura:</strong> qué pasa con cada par de botones pulsados a menos de 100 ms.</li>
+          <li><strong>Blanda:</strong> ¿el jugador sabe en qué estado está? ¿Juega con el control sin objetivo, solo porque le gusta?</li>
+          <li><strong>Blanda:</strong> ¿algo rompe la realidad física del juego (atravesar, correr contra una pared, un sonido que no corresponde)?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: el <a href="../laboratorio/lag.html">laboratorio de lag</a> (respuesta instantánea), el
+        <a href="12-asteroids.html">capítulo 12</a> (fuerzas y arcos) y el <a href="10-metricas-de-metafora.html">capítulo 10</a> (la metáfora
+        crea expectativas).
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountSensations, mountPrinciples } from '../assets/js/demos/ch17-principles.js';
+    mountSensations('#demo-sensations');
+    mountPrinciples('#demo-principles');
+    buildToc();
+  </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curvas de Respuesta</title>
+  <meta name="description" content="Laboratorio interactivo: curvas input→output, envolventes ADSR, zonas muertas y suavizados.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="curvas-de-respuesta">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#laboratorio">Laboratorio</a></p>
+      <p class="eyebrow">Laboratorio 1 · basado en el cap. 7</p>
+      <h1>Curvas de respuesta</h1>
+      <p class="lede">
+        Entre el pulgar y el avatar hay una capa de código que casi nunca se ve: la que decide <em>cuánto</em> y
+        <em>cuándo</em> responde el juego a cada señal. Ajustar esa capa es buena parte de lo que se llama "tunear" una mecánica.
+      </p>
+
+      <p>
+        Swink describe el recorrido de una señal en cuatro pasos. El dispositivo genera una señal cruda (un booleano, un
+        número entre −1 y 1). Esa señal puede ir directa a la respuesta, como el cursor del mouse. Lo habitual es que antes
+        pase por un <strong>filtro</strong> que la transforma, y por una <strong>simulación</strong> que la convierte en
+        fuerzas, velocidades o estados. Al final el jugador ve, oye y siente la <strong>respuesta</strong>.
+      </p>
+
+      <figure style="margin:1.5rem 0">
+        <svg viewBox="0 0 720 120" role="img" aria-label="Señal, filtro, simulación y respuesta" style="width:100%;height:auto;font-family:var(--font-mono);font-size:13px">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker>
+          </defs>
+          <g fill="var(--surface)" stroke="var(--line)" stroke-width="1.5">
+            <rect x="4" y="30" width="140" height="56" rx="8"/>
+            <rect x="196" y="30" width="140" height="56" rx="8" stroke="var(--accent)"/>
+            <rect x="388" y="30" width="140" height="56" rx="8"/>
+            <rect x="576" y="30" width="140" height="56" rx="8"/>
+          </g>
+          <g fill="var(--text)" text-anchor="middle">
+            <text x="74" y="55">Señal cruda</text><text x="74" y="74" fill="var(--muted)" font-size="11">bool · −1..1</text>
+            <text x="266" y="55" fill="var(--accent)">Filtro</text><text x="266" y="74" fill="var(--muted)" font-size="11">curva · zona muerta</text>
+            <text x="458" y="55">Simulación</text><text x="458" y="74" fill="var(--muted)" font-size="11">fuerzas · estados</text>
+            <text x="646" y="55">Respuesta</text><text x="646" y="74" fill="var(--muted)" font-size="11">movimiento · pulido</text>
+          </g>
+          <g stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)">
+            <line x1="146" y1="58" x2="192" y2="58"/><line x1="338" y1="58" x2="384" y2="58"/><line x1="530" y1="58" x2="572" y2="58"/>
+          </g>
+          <path d="M74 28 C 74 4, 646 4, 646 26" fill="none" stroke="var(--muted)" stroke-dasharray="4 4" marker-end="url(#arr)"/>
+          <text x="360" y="12" text-anchor="middle" fill="var(--muted)" font-size="11">mapeo directo (cursor)</text>
+        </svg>
+      </figure>
+
+      <p>
+        Este laboratorio trabaja la parte resaltada y su relación con la simulación. Hay dos clases de transformación,
+        que el libro llama <em>transposición</em>:
+      </p>
+      <ul>
+        <li><strong>Espacial:</strong> cambia el valor según cuánto se empuja el input. Por ejemplo, una curva que hace que medio
+          stick gire poco y el stick completo gire mucho.</li>
+        <li><strong>Temporal:</strong> cambia el valor según cuánto tiempo lleva pulsado el input. Por ejemplo, un ataque que
+          tarda un cuarto de segundo en llegar a la velocidad máxima.</li>
+      </ul>
+
+      <h2>1. La curva input → output</h2>
+      <p>
+        El ejemplo del libro son los juegos de conducción de mundo abierto. Para no sobrevirar con un stick de pocos milímetros,
+        la relación entre la inclinación del stick y el giro del auto no es constante: crece hacia el borde. Así una
+        inclinación pequeña da un ajuste suave para esquivar, y una grande da una curva cerrada. Una curva lineal con la misma
+        sensibilidad máxima se siente "nerviosa" (twitchy).
+      </p>
+    </article>
+
+    <div id="demo-curve"></div>
+
+    <article class="prose">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Forma</th><th>Qué hace</th><th>Se usa para</th></tr></thead>
+          <tbody>
+            <tr><td>Lineal</td><td>Output = input. Toda la carrera del stick vale lo mismo.</td><td>Punto de partida; apuntar con mouse (C:D ratio constante).</td></tr>
+            <tr><td>Potencia &gt; 1 (x², x³)</td><td>Poco output en el centro, mucho al borde.</td><td>Volantes, cámaras con stick, apuntado fino con stick.</td></tr>
+            <tr><td>Raíz / potencia &lt; 1</td><td>Mucho output con poco input.</td><td>Sticks con poca carrera, acciones que deben "arrancar" ya.</td></tr>
+            <tr><td>Curva S</td><td>Suave en ambos extremos, rápida en el medio.</td><td>Gatillos analógicos (acelerador), transiciones de velocidad.</td></tr>
+            <tr><td>Escalonada / digital</td><td>Cuantiza el input en pocos niveles.</td><td>Caminar/correr con un stick; mecánicas de 8 direcciones.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>2. La envolvente ADSR</h2>
+      <p>
+        Las envolventes vienen de la síntesis de sonido. Describen cómo cambia un parámetro desde que se pulsa una tecla
+        hasta que se suelta, en cuatro fases:
+      </p>
+      <ul>
+        <li><strong>Ataque:</strong> subida hasta el pico.</li>
+        <li><strong>Decaimiento:</strong> caída hasta el nivel de sostenido.</li>
+        <li><strong>Sostenido:</strong> se mantiene mientras se sigue pulsando.</li>
+        <li><strong>Release:</strong> regreso a cero al soltar.</li>
+      </ul>
+      <p>
+        Swink las usa para comparar movimientos: el personaje de un arcade clásico no tiene ataque ni release, mientras que el
+        fontanero del plataformas de 1985 acelera y frena con fases espejadas. Una cuerda pulsada y un órgano dan dos
+        envolventes de sonido muy distintas, y lo mismo pasa con dos personajes.
+      </p>
+    </article>
+
+    <div id="demo-adsr"></div>
+
+    <article class="prose">
+      <div class="callout">
+        <h4>Vocabulario de sensaciones</h4>
+        <p>Floaty, suelto, ajustado, nervioso y rígido no son categorías aparte. Son puntos de un mismo continuo de envolventes:</p>
+        <ul>
+          <li><strong>Rígido:</strong> sin ataque ni release. Preciso pero "robótico".</li>
+          <li><strong>Nervioso (twitchy):</strong> ataque corto y lineal.</li>
+          <li><strong>Ajustado (tight):</strong> ataque corto pero curvo. Responde ya y aun así se siente orgánico.</li>
+          <li><strong>Suelto (loose):</strong> ataque y release perceptibles.</li>
+          <li><strong>Flotante (floaty):</strong> ataque largo. Si el primer movimiento visible tarda más de ~100 ms, se percibe como <em>falta de respuesta</em>.</li>
+        </ul>
+      </div>
+      <p>
+        <strong>De dónde sale la envolvente.</strong> Casi nunca se programa como tal: es el resultado de una simulación. Si la tecla
+        suma aceleración a una velocidad y hay rozamiento, aparecen ataque y release. Si la tecla escribe la posición directamente,
+        no hay ninguno de los dos. El preset "Arranque rápido + ataque largo" muestra el truco del libro para tener a la vez
+        respuesta instantánea y una sensación suelta: una curva que sube muy rápido al principio y tarda en llegar al máximo.
+      </p>
+
+      <h2>3. Zonas muertas</h2>
+      <p>
+        Un stick analógico nunca vuelve exactamente a cero: tiene deriva y ruido. La zona muerta ignora la parte central de la
+        señal. La forma de esa zona importa:
+      </p>
+      <ul>
+        <li><strong>Axial:</strong> si se aplica eje por eje, "pega" el movimiento a los ejes.</li>
+        <li><strong>Radial sin reescalar:</strong> el valor salta de golpe al salir de la zona.</li>
+        <li><strong>Radial escalada:</strong> resuelve los dos problemas.</li>
+      </ul>
+    </article>
+
+    <div id="demo-deadzones"></div>
+
+    <article class="prose">
+      <h2>4. Suavizados: la curva en el tiempo</h2>
+      <p>
+        Cuando el objetivo cambia (la posición del mouse, la dirección deseada, la cámara), el juego decide cómo llegar a él.
+        Cada técnica deja una firma en la sensación:
+      </p>
+      <ul>
+        <li><strong>Interpolación lineal:</strong> se siente mecánica.</li>
+        <li><strong>Exponencial:</strong> frena suave.</li>
+        <li><strong>Resorte amortiguado:</strong> puede sobrepasar y volver, y eso el jugador lo lee como masa. Lo exploramos a fondo en el <a href="peso-del-mouse.html">laboratorio de peso del mouse</a>.</li>
+      </ul>
+    </article>
+
+    <div id="demo-smoothing"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> la curva de mapeo de cada input, con su forma, su zona muerta y su saturación.</li>
+          <li><strong>Dura:</strong> la envolvente ADSR de cada parámetro modulado: tiempos de ataque, decay y release, y niveles de pico y sostenido.</li>
+          <li><strong>Dura:</strong> el tiempo hasta el primer movimiento perceptible, que debería ser ≤ 100 ms.</li>
+          <li><strong>Blanda:</strong> cómo describen los jugadores la sensación (flotante, ajustada, nerviosa) y si coincide con la intención.</li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountCurveEditor } from '../assets/js/demos/lab-curve-editor.js';
+    import { mountADSR } from '../assets/js/demos/lab-adsr.js';
+    import { mountDeadzones } from '../assets/js/demos/lab-deadzones.js';
+    import { mountSmoothing } from '../assets/js/demos/lab-smoothing.js';
+    mountCurveEditor('#demo-curve');
+    mountADSR('#demo-adsr');
+    mountDeadzones('#demo-deadzones');
+    mountSmoothing('#demo-smoothing');
+    buildToc();
+  </script>
+</body>
+</html>

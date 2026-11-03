@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Definiendo el Game Feel</title>
+  <meta name="description" content="Capítulo 1: control en tiempo real, espacio simulado y pulido, los tres bloques del game feel, con demos jugables.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="01-definiendo-game-feel">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 1 de 19</p>
+      <h1>Definiendo el game feel</h1>
+      <p class="lede">
+        Todos reconocemos un juego que "se siente bien", y casi nadie sabe explicar por qué. Swink abre el libro separando la experiencia del
+        fenómeno: antes de juzgar si algo se siente bien hay que saber qué condiciones hacen falta para que se sienta <em>algo</em>.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>La definición se arma en tres capas, y cada una agrega una condición necesaria:</p>
+      <ol>
+        <li><strong>Control en tiempo real.</strong> Es un tipo particular de interactividad: un flujo continuo de órdenes del jugador
+          al juego, sin pausas ni turnos. Se parece más a manejar un auto que a una conversación por turnos. El jugador corrige a cada
+          instante y el juego responde a cada instante.</li>
+        <li><strong>Espacio simulado.</strong> Sin un entorno contra el cual medirse no hay movimiento perceptible ni interacción física.
+          Esto incluye las colisiones y también el diseño del nivel: dónde están los objetos y a qué distancia, según lo rápido que se mueve
+          el avatar. Además, el jugador tiene que percibir ese espacio <em>activamente</em>, tanteándolo con su avatar.</li>
+        <li><strong>Pulido.</strong> Animaciones, sonidos, partículas y temblores de cámara que no cambian la simulación, pero le dicen al
+          jugador si algo es pesado, blando, metálico o de goma.</li>
+      </ol>
+      <p>
+        La definición completa queda así: <em>control en tiempo real de objetos virtuales en un espacio simulado, con las interacciones
+        enfatizadas por el pulido</em>. Los tres bloques se pueden pensar como un diagrama de Venn. En el centro, donde se cruzan los tres,
+        está el game feel del que trata el libro. En los bordes hay juegos que usan uno o dos bloques. Starcraft, por ejemplo, tiene espacio
+        simulado y mucho pulido, pero cada clic es un impulso que termina enseguida: el jugador fija el destino y no guía el viaje.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Números y criterios clave</h4>
+        <div class="numbers-grid">
+          <div><b>3</b><span>bloques: control en tiempo real, espacio simulado y pulido</span></div>
+          <div><b>7</b><span>combinaciones posibles; solo el centro es game feel pleno</span></div>
+          <div><b>5</b><span>experiencias: control, habilidad, extensión de los sentidos, de la identidad y una física propia</span></div>
+          <div><b>240 ms</b><span>el ciclo de corrección que hace posible el control en tiempo real (cap. 2)</span></div>
+        </div>
+      </div>
+
+      <h2>1. Sin espacio no hay movimiento</h2>
+      <p>
+        Imagina una pelota flotando en un blanco infinito: ¿cómo sabrías si se mueve? El primer ejemplo del libro lo convierte en un juego
+        en primera persona. Los controles funcionan desde el principio, pero no hay nada que los haga visibles.
+      </p>
+    </article>
+
+    <div id="demo-fps"></div>
+
+    <article class="prose">
+      <h2>2. El espacio tiene que responder</h2>
+      <p>
+        Ver objetos no alcanza: tienen que oponer resistencia. Con colisiones, el entorno se vuelve algo que se toca. Los muros se bordean y
+        los objetos se empujan, y el avatar adquiere presencia física.
+      </p>
+    </article>
+
+    <div id="demo-collisions"></div>
+
+    <article class="prose">
+      <h2>3. Los tres bloques, por separado y juntos</h2>
+      <p>
+        El tercer ejemplo recorre el diagrama de Venn completo con el mismo escenario. Sin control, el círculo naranja se mueve con un
+        autopiloto y tú solo miras: así se siente la diferencia entre percibir activa y pasivamente. Sin espacio, todo se atraviesa.
+        Sin pulido, los choques ocurren igual, pero en silencio y sin deformación.
+      </p>
+    </article>
+
+    <div id="demo-blocks"></div>
+
+    <article class="prose">
+      <h2>Las cinco experiencias del game feel</h2>
+      <p>Con los tres bloques presentes, el libro identifica cinco experiencias que suelen aparecer mezcladas:</p>
+      <ul>
+        <li><strong>La sensación estética de controlar:</strong> el placer de títere de ver algo moverse al ritmo de tus pulsaciones, incluso sin objetivos.</li>
+        <li><strong>Aprender, practicar y dominar una habilidad:</strong> la torpeza inicial que se vuelve fluidez, como el salto de Mario que se aprende a dosificar.</li>
+        <li><strong>La extensión de los sentidos:</strong> percibir el mundo del juego a través del avatar, como se percibe el suelo a través de un bastón.</li>
+        <li><strong>La extensión de la identidad:</strong> "me golpeó" en lugar de "golpeó a mi personaje".</li>
+        <li><strong>Una realidad física propia:</strong> cada juego tiene sus leyes, y se aprenden tanteándolas.</li>
+      </ul>
+      <p>
+        El cierre del capítulo prepara el tema central del libro: las pistas sobre cómo es un objeto llegan por varios canales a la vez.
+        Si una bola con aspecto de pelota de ping-pong parte en dos una bola de bolos, la conclusión es que es pesadísima: el movimiento
+        y el sonido le ganan a la imagen. Lo puedes comprobar en la demo 3 del
+        <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso del mouse</a>.
+      </p>
+
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> ¿cada mecánica permite un flujo continuo de input y respuesta? ¿Hay contra qué medir el movimiento (suelo, objetos, bordes)?</li>
+          <li><strong>Dura:</strong> ¿los objetos colisionan con el avatar, y el jugador lo experimenta directamente?</li>
+          <li><strong>Blanda:</strong> ¿cuál de las cinco experiencias domina en cada momento? ¿Las pistas de imagen, sonido y movimiento cuentan la misma historia?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="../laboratorio/lag.html">laboratorio de lag</a>, para ver qué rompe el control en tiempo real, y
+        <a href="../laboratorio/peso-del-mouse.html">peso del mouse</a>, para ver cómo el movimiento comunica la masa.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountFps } from '../assets/js/demos/ch01-fps.js';
+    import { mountCollisions, mountBlocks } from '../assets/js/demos/ch01-blocks.js';
+    mountFps('#demo-fps');
+    mountCollisions('#demo-collisions');
+    mountBlocks('#demo-blocks');
+    buildToc();
+  </script>
+</body>
+</html>

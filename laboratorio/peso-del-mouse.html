@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peso del Mouse</title>
+  <meta name="description" content="Laboratorio interactivo: qué hace que algo controlado con el mouse se sienta pesado o liviano.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="peso-del-mouse">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#laboratorio">Laboratorio</a></p>
+      <p class="eyebrow">Laboratorio 2 · basado en los caps. 1, 2 y 7</p>
+      <h1>Peso del mouse</h1>
+      <p class="lede">
+        Un mouse pesa unos 100 gramos, y el cursor que mueve no pesa nada. Aun así, hay juegos donde arrastrar algo
+        con el mouse se siente como empujar un mueble. Ese peso no está en la mano: lo cuenta el <em>movimiento</em>.
+      </p>
+
+      <p>
+        El cursor es el caso límite que Swink usa en el capítulo 7. Tiene una sensibilidad de input altísima, porque el mouse
+        reporta posiciones finas en dos ejes, y casi ninguna reacción propia: la posición del mouse <em>es</em> la posición del
+        cursor. Por eso se domina al instante, no hay nada que aprender ni ninguna traducción que dominar. Y por eso mismo un
+        objeto mapeado así no transmite masa, peso ni presencia: se comporta como un cursor grande.
+      </p>
+      <p>Todo lo que haga sentir peso tiene que agregarse entre la mano y el objeto. Hay tres familias de pistas:</p>
+      <ol>
+        <li><strong>Movimiento:</strong>
+          <ul>
+            <li>cuánto tarda en seguir a la mano (inercia);</li>
+            <li>cómo acelera y frena;</li>
+            <li>si se pasa del punto y vuelve;</li>
+            <li>qué pasa cuando choca, es decir, quién empuja a quién.</li>
+          </ul>
+        </li>
+        <li><strong>Sonido:</strong> grave y largo o agudo y seco.</li>
+        <li><strong>Imagen:</strong> material, tamaño, sombra, deformación, polvo y temblor de cámara.</li>
+      </ol>
+      <p>
+        El libro propone un experimento mental: una pelota de ping-pong que choca con una bola de bolos y la parte en dos.
+        Cuando las pistas se contradicen, gana el movimiento: la imagen dice "liviana", pero lo que hizo dice "pesadísima".
+        Lo comprobamos en la demo 3.
+      </p>
+
+      <h2>1. Cinco maneras de pesar</h2>
+      <p>
+        Las cinco demos usan el mismo círculo y el mismo cursor, con una regla distinta para seguirlo. Mira el gráfico de
+        abajo: la distancia horizontal entre la línea gris (cursor) y la naranja (objeto) <em>es</em> el peso que percibes.
+      </p>
+    </article>
+
+    <div id="demo-follow"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Traducir "pesado" a números (modelo resorte)</h4>
+        <div class="numbers-grid">
+          <div><b>ω = √(k/m)</b><span>frecuencia natural: qué tan rápido responde</span></div>
+          <div><b>ζ = c / 2√(km)</b><span>amortiguación: si rebota (&lt;1) o se arrastra (&gt;1)</span></div>
+          <div><b>≈ 2ζ/ω</b><span>retraso al seguir un cursor que se mueve a velocidad constante</span></div>
+          <div><b>≈ 1/tasa</b><span>el mismo retraso en el suavizado exponencial</span></div>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Si subes…</th><th>Pasa esto</th><th>Se siente</th></tr></thead>
+          <tbody>
+            <tr><td>Masa</td><td>ω baja: el objeto tarda más en seguir y en frenar.</td><td>Pesado, con inercia</td></tr>
+            <tr><td>Rigidez (k)</td><td>ω sube: el objeto sigue de cerca.</td><td>Liviano, firme</td></tr>
+            <tr><td>ζ hacia 0</td><td>Sobrepasa y oscila al frenar.</td><td>Elástico, gelatinoso</td></tr>
+            <tr><td>ζ por encima de 1</td><td>Llega tarde y sin rebote.</td><td>Viscoso, "en melaza"</td></tr>
+            <tr><td>Fuerza máxima, a la baja</td><td>No puede seguir los gestos rápidos: la aceleración tiene techo.</td><td>Pesado de verdad: "mi brazo no alcanza"</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <h4>La tensión de diseño: peso contra respuesta</h4>
+        <p>
+          Peso es retraso, y el capítulo 2 dice que más de ~100 ms de retraso se lee como falta de respuesta. La salida es
+          la misma que en el <a href="curvas-de-respuesta.html">laboratorio de curvas</a>: que algo responda <strong>ya</strong>.
+        </p>
+        <ul>
+          <li>Un resorte empieza a acelerar en el primer frame, aunque tarde en llegar.</li>
+          <li>La banda elástica se estira al instante.</li>
+          <li>El squash reacciona a la velocidad sin demora.</li>
+        </ul>
+        <p>El jugador ve causa y efecto inmediatos, y aparte percibe la masa.</p>
+      </div>
+
+      <h2>2. Agarrar y lanzar</h2>
+      <p>
+        Para saber cuánto pesa un libro, lo levantas o lo tiras. En un juego pasa lo mismo: la masa se descubre en
+        la acción. Si el agarre es rígido (el objeto queda pegado al cursor), la pelota y el yunque se arrastran igual y
+        la masa solo aparece cuando chocan. Si el agarre es un resorte o tiene una fuerza máxima, la masa se nota en la
+        mano, pero el control se vuelve menos preciso.
+      </p>
+      <p>
+        La tarea cuenta <strong>correcciones</strong>: inversiones bruscas en la dirección del cursor. Cada una es un ciclo
+        de percepción, decisión y acción, de unos 240 ms según el capítulo 2. Los objetos pesados exigen más ciclos, y por eso
+        tardan más en llegar a la zona aunque tu mano sea igual de rápida.
+      </p>
+    </article>
+
+    <div id="demo-throw"></div>
+
+    <article class="prose">
+      <h2>3. ¿Quién manda: la apariencia, el sonido o el movimiento?</h2>
+      <p>
+        Aquí las tres pistas son independientes. Elige una bola de bolos con sonido grave que se mueve como una pelota de
+        ping-pong, o al revés, lánzala contra las latas y califica cuánto pesa. El libro predice que el movimiento, sobre todo
+        cómo reaccionan los <em>otros</em> objetos, termina imponiéndose a la imagen y al sonido.
+      </p>
+    </article>
+
+    <div id="demo-motion"></div>
+
+    <article class="prose">
+      <h2>4. Ratio C:D y aceleración del puntero</h2>
+      <p>
+        Incluso el cursor tiene un filtro: el <strong>ratio control-display</strong>. Si el cursor recorre 2 cm en pantalla por
+        cada centímetro que mueves el mouse, el ratio es 1:2. Es la transposición más simple posible, una multiplicación.
+        Los sistemas operativos añaden <strong>aceleración del puntero</strong>: la ganancia depende de la velocidad. Movimientos
+        lentos dan ganancia baja, para la precisión; movimientos rápidos dan ganancia alta, para el alcance.
+      </p>
+      <p>
+        Para medir el efecto usamos la <strong>ley de Fitts</strong>, que el libro presenta en el capítulo 2: el tiempo para
+        alcanzar un objetivo crece con el logaritmo de la distancia dividida por su tamaño. La barra de menú del Mac, pegada al
+        borde de la pantalla, es "infinitamente alta" en esa fórmula: se alcanza casi sin correcciones.
+      </p>
+    </article>
+
+    <div id="demo-cd"></div>
+
+    <article class="prose">
+      <h2>Cuándo darle peso a lo que mueve el mouse</h2>
+      <ul>
+        <li><strong>Cursor de interfaz:</strong> nunca. Cualquier retraso se siente como lag.</li>
+        <li><strong>Mirar en primera persona:</strong> casi nada. Un suavizado mínimo quita la vibración; más que eso se siente como lag. El ratio C:D es el verdadero ajuste.</li>
+        <li><strong>Objetos del mundo que se arrastran:</strong> sí. Conviene un agarre que respete la masa y feedback inmediato (banda, squash, sonido de roce).</li>
+        <li><strong>Personaje que sigue al cursor:</strong> con aceleración y frenado, como el modo "Inercia". Así gana presencia sin dejar de obedecer.</li>
+      </ul>
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> el retraso en régimen estacionario (ms) y el sobrepaso al frenar (px).</li>
+          <li><strong>Dura:</strong> el tiempo de asentamiento (ms).</li>
+          <li><strong>Dura:</strong> el ratio C:D y la curva de ganancia; el tiempo y los sobrepasos por objetivo (Fitts).</li>
+          <li><strong>Dura:</strong> las correcciones necesarias para posicionar objetos de distinta masa.</li>
+          <li><strong>Blanda:</strong> ¿qué pesa el objeto según el jugador? ¿Coincide con la intención? ¿Qué pista domina cuando se contradicen?</li>
+        </ul>
+      </div>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountMouseFollow } from '../assets/js/demos/lab-mouse-follow.js';
+    import { mountThrow } from '../assets/js/demos/lab-throw.js';
+    import { mountMotionWins } from '../assets/js/demos/lab-motion-wins.js';
+    import { mountCDRatio } from '../assets/js/demos/lab-cd-ratio.js';
+    mountMouseFollow('#demo-follow');
+    mountThrow('#demo-throw');
+    mountMotionWins('#demo-motion');
+    mountCDRatio('#demo-cd');
+    buildToc();
+  </script>
+</body>
+</html>

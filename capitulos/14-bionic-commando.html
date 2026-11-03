@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gancho y Péndulo</title>
+  <meta name="description" content="Capítulo 14: análisis de Bionic Commando: columpio con gancho, gravedad como única física real y cámara con zona muerta.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="14-bionic-commando">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 14 de 19 · caso de estudio</p>
+      <h1>Caso: gancho y péndulo (Bionic Commando)</h1>
+      <p class="lede">
+        Bionic Commando (NES) no deja saltar: el personaje se mueve con un brazo biónico que se engancha y lo columpia. La sorpresa del análisis es
+        que casi nada de eso está simulado, y aun así se siente fluido.
+      </p>
+
+      <h2>Análisis con las seis métricas</h2>
+      <ul>
+        <li><strong>Input:</strong> el mismo control de NES que Mario: cruceta y dos botones.</li>
+        <li><strong>Respuesta:</strong>
+          <ul>
+            <li>Correr es todo o nada, sin aceleración, como en Donkey Kong.</li>
+            <li>El columpio es una secuencia predeterminada de unos diez frames, con los dibujos más juntos en los extremos para que parezca frenar y acelerar, como la pelota que rebota en animación.</li>
+            <li>Empujar la cruceta durante el vaivén se siente como darle impulso, pero casi no hace nada: es un placebo.</li>
+            <li>La única física newtoniana real es la gravedad al soltarse.</li>
+          </ul>
+        </li>
+        <li><strong>Cámara:</strong> el segundo avatar. Tiene una <em>zona muerta</em> central: mientras el personaje está dentro, la cámara no se mueve. En horizontal ocupa cerca de un tercio de la pantalla. Así el columpio parece anclado a un punto y se evita el mareo de una cámara que persigue cada vaivén.</li>
+        <li><strong>Contexto:</strong> niveles con desplazamiento libre que se sienten abiertos, con techos y salientes ubicados para enganchar.</li>
+        <li><strong>Pulido, metáfora y reglas:</strong>
+          <ul>
+            <li>animaciones sólidas;</li>
+            <li>un soldado con un brazo mecánico, una metáfora que justifica que el gancho sea el centro del juego;</li>
+            <li>armas que rompen las cosas en más o menos golpes, lo que cambia lo sólido que parece cada objeto.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>~10</b><span>frames de animación forman el columpio</span></div>
+          <div><b>⅓</b><span>de la pantalla: la zona muerta horizontal de la cámara</span></div>
+          <div><b>1</b><span>parámetro simulado de verdad: la gravedad</span></div>
+          <div><b>0</b><span>de aceleración al correr: todo o nada</span></div>
+        </div>
+      </div>
+
+      <h2>1. Columpio y cámara</h2>
+      <p>
+        Esta demo es un sandbox de la mecánica analizada, con un nivel propio. El modo 1 reproduce la idea del original, un balanceo animado que
+        no depende del input. El modo 2 lo cambia por un péndulo simulado que conserva el momento al soltarse. Las zonas muertas de la cámara son
+        configurables: pruébalas en cero, como sugiere el libro.
+      </p>
+    </article>
+
+    <div id="demo-grapple"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> qué movimientos están simulados y cuáles son animaciones predeterminadas.</li>
+          <li><strong>Dura:</strong> el tamaño de la zona muerta de la cámara, en horizontal y en vertical.</li>
+          <li><strong>Blanda:</strong> ¿el jugador <em>cree</em> que influye en el columpio? La sensación vive en la mente del jugador, aunque el código no le haga caso.</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="04-mecanicas.html">capítulo 4</a> (cuando la animación manda) y el
+        <a href="15-super-mario-64.html">capítulo 15</a>, donde la cámara pasa a ser un avatar en 3D.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountGrapple } from '../assets/js/demos/ch14-grapple.js';
+    mountGrapple('#demo-grapple');
+    buildToc();
+  </script>
+</body>
+</html>

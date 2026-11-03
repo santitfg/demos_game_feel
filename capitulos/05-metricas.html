@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Métricas del Game Feel</title>
+  <meta name="description" content="Capítulo 5: por qué medir el game feel, métricas duras y blandas, y los seis elementos a medir, con demos de input y de pulido.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="05-metricas">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 5 de 19</p>
+      <h1>Más allá de la intuición: métricas</h1>
+      <p class="lede">
+        Los jugadores describen el game feel con palabras como "flotante", "suelto", "ajustado" o "responsivo". Los diseñadores, casi siempre,
+        lo ajustan a ojo. Este capítulo abre la parte del libro que intenta medirlo: cuáles son los colores de la paleta, no solo los cuadros
+        terminados.
+      </p>
+
+      <h2>Ideas clave</h2>
+      <p>
+        Sin vocabulario común, cada juego nuevo reinventa la rueda: se copia el salto de Mario sin entender de dónde sale su sensación. Medir
+        sirve para comparar juegos con sentido y para saber qué tocar. Hay dos tipos de medida:
+      </p>
+      <ul>
+        <li><strong>Métricas duras:</strong> cuantificables y repetibles. Por ejemplo, el jugador pulsó el botón 57 ms después de que el personaje dejara la plataforma. Mick West graficaba el input en el tiempo junto con los eventos del juego.</li>
+        <li><strong>Métricas blandas:</strong> diversión, risas, ganas de seguir jugando, impresiones como "esto no se siente como un caballo". No son peores; son el material de la intuición del diseñador.</li>
+      </ul>
+      <p>Del modelo del capítulo 3 salen <strong>seis elementos</strong> para medir, uno por capítulo:</p>
+      <ol>
+        <li><strong>Input</strong> (cap. 6): qué dispositivo, qué partes de él se usan y qué sensibilidad tiene.</li>
+        <li><strong>Respuesta</strong> (cap. 7): cómo el input modula parámetros del juego a lo largo del tiempo.</li>
+        <li><strong>Contexto</strong> (cap. 8): el espacio y el diseño de nivel que dan sentido al movimiento. Un Tetris de tres columnas sería otro juego.</li>
+        <li><strong>Pulido</strong> (cap. 9): los efectos que venden las interacciones. En Burnout, el choque se siente por los vidrios, el metal y el sonido.</li>
+        <li><strong>Metáfora</strong> (cap. 10): lo que la representación promete. Si parece un caballo, se espera que se comporte como un caballo.</li>
+        <li><strong>Reglas</strong> (cap. 11): objetivos y relaciones que cambian el sentido del control.</li>
+      </ol>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>6</b><span>elementos a medir: input, respuesta, contexto, pulido, metáfora y reglas</span></div>
+          <div><b>2</b><span>tipos de métrica: duras (números) y blandas (impresiones)</span></div>
+          <div><b>−1…1</b><span>el rango de un eje de stick: un float, no un botón</span></div>
+          <div><b>10 × 24</b><span>el tablero de Tetris: el contexto también se diseña</span></div>
+        </div>
+      </div>
+
+      <h2>1. Input: el mismo juego, otro dispositivo</h2>
+      <p>
+        El diseñador rara vez elige el dispositivo, pero siempre elige qué partes usa y cómo. Un teclado da botones de dos estados; un stick
+        analógico da dos valores continuos. Con todo lo demás igual, cambia lo que se puede expresar.
+      </p>
+    </article>
+
+    <div id="demo-input"></div>
+
+    <article class="prose">
+      <h2>2. Pulido: misma física, otra sensación</h2>
+      <p>
+        El pulido es una métrica blanda: no se puede expresar con un número. Pero se puede aislar. Aquí la simulación no cambia nunca; solo
+        cambian la forma, la deformación, las partículas y el sonido.
+      </p>
+    </article>
+
+    <div id="demo-polish"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> el input en el tiempo junto con los eventos del juego (saltar, aterrizar, caer), en ms.</li>
+          <li><strong>Dura:</strong> las direcciones y velocidades distintas que el jugador puede expresar con cada esquema de control.</li>
+          <li><strong>Blanda:</strong> qué palabras usan los jugadores (flotante, ajustado, pesado) y si coinciden con la intención del diseño.</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="06-metricas-de-input.html">métricas de input</a>, <a href="07-metricas-de-respuesta.html">métricas de respuesta</a> y la
+        demo 3 del <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso</a>, donde imagen, sonido y movimiento se contradicen.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountInputCompare, mountPolishSets } from '../assets/js/demos/ch05-metrics.js';
+    mountInputCompare('#demo-input');
+    mountPolishSets('#demo-polish');
+    buildToc();
+  </script>
+</body>
+</html>

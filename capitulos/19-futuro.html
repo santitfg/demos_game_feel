@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El Futuro del Game Feel</title>
+  <meta name="description" content="Capítulo 19: hacia dónde pueden ir el input, la respuesta, el contexto, el pulido, la metáfora y las reglas, con demos de vibración háptica e inclinación.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="19-futuro">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 19 de 19</p>
+      <h1>El futuro del game feel</h1>
+      <p class="lede">
+        El último capítulo recorre una vez más las seis piezas del sistema (input, respuesta, contexto, pulido, metáfora y reglas) y se
+        pregunta, para cada una, qué problemas quedan abiertos y por dónde podría mejorar la sensación de control.
+      </p>
+
+      <h2>Input</h2>
+      <ul>
+        <li><strong>Ancho de banda.</strong> La computadora le manda al jugador muchísima más información que la que el jugador puede mandarle
+          a ella. La investigación en interfaces busca cerrar el "golfo de ejecución", la distancia entre la intención y la acción.</li>
+        <li><strong>Pero en un juego, algo de golfo hace falta.</strong> Si intención y resultado se funden, no hay desafío ni aprendizaje. El
+          problema de diseño es elegir la dificultad <em>correcta</em> entre la intención y la ejecución, y distinguirla de un simple problema
+          de usabilidad. Juegos con tres botones, como Spacewar!, siguen sintiéndose bien.</li>
+        <li><strong>Natural no es lo mismo que realista.</strong> El mouse es natural porque traslada posición. Una pantalla táctil va más
+          lejos: la relación control-display es siempre 1:1, se toca donde se quiere actuar. El control por movimiento promete naturalidad,
+          pero a menudo agrega la dificultad equivocada.</li>
+        <li><strong>Háptica.</strong> Nació en la aviación: en un avión liviano el piloto siente por el bastón que se acerca la pérdida; en un
+          avión grande con mandos servoasistidos esa sensación desaparece, y por eso se le agrega un agitador artificial. La vibración de los
+          controles podría ser mucho más rica: variar la rapidez, la dirección del movimiento (lineal y rotacional) y la suavidad.</li>
+        <li><strong>Señal, no efecto especial.</strong> El force feedback no se generalizó porque casi siempre se usa como un golpe aislado, y
+          no como una corriente continua de información, como lo es el tono del motor en un juego de autos. Y un control que pelea contra la
+          mano contradice uno de los grandes atractivos de los juegos: una respuesta grande para un input pequeño. En palabras del autor, un
+          megáfono para los pulgares.</li>
+      </ul>
+
+      <h2>Respuesta</h2>
+      <ul>
+        <li><strong>Interpretación:</strong> el reconocimiento de gestos y la lectura de input más compleja van a crecer.</li>
+        <li><strong>Simulación:</strong> el autor la considera la pieza con más potencial. No tanto por simular con más detalle lo de siempre,
+          sino por controlar cosas nuevas: un fluido, humo, una bandada que sigue reglas simples de grupo, un objeto armado con resortes y pesos.
+          O, en vez de empujar un objeto desde afuera, controlar sus músculos, como en un ragdoll activo.</li>
+      </ul>
+
+      <h2>Contexto, pulido, metáfora y reglas</h2>
+      <ul>
+        <li><strong>Contexto:</strong> es lo que da significado al movimiento, y probablemente cambie poco. Hay oportunidades en diseñar
+          mejores espacios a gran escala con ideas de arquitectura, y en la familiaridad de recorrer un mismo lugar hasta conocerlo.</li>
+        <li><strong>Pulido:</strong> con más capacidad de cálculo habrá más efectos; lo importante es que todos sostengan la misma impresión
+          física que la simulación y la metáfora.</li>
+        <li><strong>Metáfora:</strong> se celebran las representaciones raras y surrealistas: controlar algo que no existe en el mundo real.</li>
+        <li><strong>Reglas:</strong> algunos juegos ya usan reglas, a menudo espaciales, para decir algo sobre la condición humana, lejos del
+          triunfo y la colección. El libro menciona Passage y Gravitation, de Jason Rohrer, y The Marriage, de Rod Humble.</li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>1:1</b><span>la relación control-display de una pantalla táctil</span></div>
+          <div><b>3</b><span>dimensiones para una vibración más rica: rapidez, dirección y suavidad</span></div>
+          <div><b>6</b><span>piezas del sistema, revisadas una por una</span></div>
+        </div>
+      </div>
+
+      <h2>1. Háptica: aviso o efecto especial</h2>
+      <p>
+        El ejemplo del agitador de bastón, jugable. La misma física de vuelo (muy simplificada) con tres usos de la vibración. Con un gamepad
+        conectado en un navegador que soporte la Gamepad Haptics API, la vibración se siente en las manos; en un teléfono se usa el vibrador;
+        en cualquier caso, la intensidad se muestra en pantalla y, si quieres, con un zumbido.
+      </p>
+    </article>
+
+    <div id="demo-stall"></div>
+
+    <article class="prose">
+      <h2>2. Inclinación: el aparato como control</h2>
+      <p>
+        La "ventana al mundo" del <a href="18-juegos-que-quiero-hacer.html">capítulo 18</a> en pequeño, con el sensor de orientación del
+        teléfono. Sin sensor, el mouse o el teclado hacen de inclinación, y se nota cuánto menos natural resulta.
+      </p>
+    </article>
+
+    <div id="demo-tilt"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> el ángulo de ataque al que llegas con y sin aviso, y la cantidad de pérdidas.</li>
+          <li><strong>Blanda:</strong> ¿la vibración te informa o te sobresalta? ¿Mirabas el indicador o te alcanzaba con sentirla?</li>
+          <li><strong>Blanda:</strong> con el sensor, ¿el mapeo se siente natural? ¿Qué cambia al subir la ganancia?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: el <a href="06-metricas-de-input.html">capítulo 6</a> (la física del dispositivo), el
+        <a href="../laboratorio/peso-del-mouse.html">laboratorio de peso del mouse</a> (relación control-display) y el
+        <a href="16-raptor-safari.html">capítulo 16</a> (el sonido del motor como señal continua).
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountStall, mountTilt } from '../assets/js/demos/ch19-future.js';
+    mountStall('#demo-stall');
+    mountTilt('#demo-tilt');
+    buildToc();
+  </script>
+</body>
+</html>

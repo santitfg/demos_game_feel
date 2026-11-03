@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nave con Inercia</title>
+  <meta name="description" content="Capítulo 12: análisis de la nave de Asteroids con las seis métricas, y un sandbox para reconstruir su sensación desde cero.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="12-asteroids">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 12 de 19 · caso de estudio</p>
+      <h1>Caso: nave con inercia (Asteroids)</h1>
+      <p class="lede">
+        Asteroids (1979) se sigue sintiendo bien. Con las métricas de la primera parte, Swink la desarma pieza por pieza para ver de dónde sale esa
+        sensación: un giro nítido y un avance flotante.
+      </p>
+
+      <h2>Análisis con las seis métricas</h2>
+      <ul>
+        <li><strong>Input:</strong> cinco botones de dos estados: girar a la izquierda, girar a la derecha, empujar, disparar e hiperespacio.</li>
+        <li><strong>Respuesta:</strong> la nave se mueve en dos dimensiones y en su propio marco de referencia.
+          <ul>
+            <li>El <em>giro</em> no tiene simulación, pero el input se filtra con un ataque leve de un cuarto a un tercio de segundo. Sin él, el giro se siente robótico.</li>
+            <li>El <em>empuje</em> suma fuerza en la dirección del morro: tarda unos tres segundos en llegar al máximo y todavía más en apagarse.</li>
+            <li>Lo central es que el vector de empuje se <em>suma</em> a la velocidad de la nave en lugar de reemplazarla. Así se separan rumbo y movimiento, y la nave puede girar mientras deriva.</li>
+          </ul>
+        </li>
+        <li><strong>Contexto:</strong> la pantalla envolvente evita que la nave se pierda en segundos, y las rocas dan referencias de movimiento y algo que esquivar.</li>
+        <li><strong>Pulido:</strong> con muy poco poder de cómputo, una coherencia notable entre tamaño y sonido. Las rocas grandes explotan con un estruendo grave, las medianas y las chicas suenan cada vez más agudo, el platillo grande suena más grave que el chico, y las balas son lo más agudo. El motor es el sonido más grave de todos, y por eso se siente poderoso.</li>
+        <li><strong>Metáfora:</strong> una nave en el espacio, abstracta e icónica. La inercia casi sin fricción encaja con la idea del vacío.</li>
+        <li><strong>Reglas:</strong> tres vidas, y cualquier contacto destruye la nave al instante: se siente frágil. Hay una vida extra cada 10 000 puntos y las rocas valen 20, 50 o 100 según su tamaño. Las chicas, más difíciles de acertar, valen más y empujan a arriesgarse.</li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>5</b><span>botones de dos estados</span></div>
+          <div><b>~0,3 s</b><span>ataque del giro: la diferencia entre fluido y robótico</span></div>
+          <div><b>~3 s</b><span>del reposo a la velocidad máxima con el empuje</span></div>
+          <div><b>&gt; 4 s</b><span>de planeo antes de detenerse, por la amortiguación muy baja</span></div>
+        </div>
+      </div>
+
+      <h2>1. Recrea la sensación desde cero</h2>
+      <p>
+        El ejemplo del libro trae todos los parámetros a cero y pide reconstruir la sensación. Es el mejor ejercicio para entender qué hace cada número.
+      </p>
+    </article>
+
+    <div id="demo-zero"></div>
+
+    <article class="prose">
+      <h2>2. Tres modelos de movimiento</h2>
+      <p>
+        Hay tres maneras de llegar a "la nave avanza hacia donde mira". Solo la tercera da la sensación buscada. La casilla de input crudo
+        aísla el tercio de segundo de ataque del giro.
+      </p>
+    </article>
+
+    <div id="demo-modes"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> la envolvente del giro (ataque de ~0,3 s), la del empuje (subida de ~3 s) y el tiempo de planeo.</li>
+          <li><strong>Dura:</strong> si el empuje se suma a la velocidad o la reemplaza.</li>
+          <li><strong>Blanda:</strong> giro nítido frente a avance flotante. ¿El contraste se nota?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: <a href="07-metricas-de-respuesta.html">capítulo 7</a>, sobre envolventes y filtrado del input, y
+        <a href="13-super-mario-bros.html">capítulo 13</a>, el siguiente caso.
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountShipZero, mountShipModes } from '../assets/js/demos/ch12-ship.js';
+    mountShipZero('#demo-zero');
+    mountShipModes('#demo-modes');
+    buildToc();
+  </script>
+</body>
+</html>

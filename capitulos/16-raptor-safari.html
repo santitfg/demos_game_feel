@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vehículo Todoterreno</title>
+  <meta name="description" content="Capítulo 16: análisis de Raptor Safari: suspensión con cuatro raycasts, ejes de input filtrados, velocidad deseada frente a real y fricción de neumáticos.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>try{var t=localStorage.getItem('gf-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body data-root="../" data-page="16-raptor-safari">
+  <main>
+    <article class="prose">
+      <p class="breadcrumb"><a href="../index.html">Inicio</a> / <a href="../index.html#capitulos">Capítulos</a></p>
+      <p class="eyebrow">Capítulo 16 de 19 · caso de estudio</p>
+      <h1>Caso: vehículo todoterreno (Raptor Safari)</h1>
+      <p class="lede">
+        Off-Road Velociraptor Safari es un juego de navegador hecho en unos dos meses por Flashbang Studios, el estudio del autor. Se maneja un
+        jeep por un valle abierto. Es el caso del libro donde casi toda la sensación sale de una simulación física, y muestra lo rápido que
+        crece la cantidad de parámetros cuando se elige ese camino.
+      </p>
+
+      <h2>Por qué los autos son difíciles</h2>
+      <p>
+        Casi todo el mundo maneja o viaja en auto a diario, así que trae una enorme cantidad de experiencia con la que comparar. Eso vuelve a
+        los jugadores muy sensibles a la sensación de cualquier cosa que <em>parezca</em> un auto, y por eso los juegos de manejo exigen una
+        cantidad desmedida de ajuste fino.
+      </p>
+
+      <h2>Análisis con las seis métricas</h2>
+      <ul>
+        <li><strong>Input:</strong> seis teclas (W, A, S, D, B y espacio). Todas son señales binarias; no hay mouse ni stick.</li>
+        <li><strong>Respuesta, filtrado:</strong> el gestor de input de Unity trata cada tecla como un eje con tres propiedades:
+          <ul>
+            <li><em>Gravity:</em> a qué velocidad vuelve el eje a 0 cuando no se pulsa nada;</li>
+            <li><em>Sensitivity:</em> a qué velocidad va hacia el valor pedido cuando se pulsa;</li>
+            <li><em>Snap:</em> si está activo, pulsar la dirección contraria salta primero a 0.</li>
+          </ul>
+          El resultado es que cada tecla ya llega suavizada, con una pequeña envolvente, antes de tocar la simulación.</li>
+        <li><strong>Respuesta, simulación:</strong>
+          <ul>
+            <li>El cuerpo del jeep es una caja rígida simulada por el motor de física: masa, drag, velocidad lineal y angular, posición y rotación.</li>
+            <li>Las ruedas <em>no</em> son objetos físicos. Cada una es un raycast que sale del pozo de la rueda hacia abajo. Si toca el suelo,
+              empuja la caja hacia arriba con una fuerza que crece con la compresión, como un amortiguador.</li>
+            <li>Sin amortiguación, ese sistema rebota cada vez más fuerte hasta lanzar el jeep por el aire; la fuerza tiene que disminuir a medida
+              que la suspensión vuelve a su largo normal.</li>
+            <li>El modelo de la rueda se dibuja donde el raycast toca el suelo. En un cordón, eso la haría saltar de golpe, así que su posición
+              visible se interpola.</li>
+            <li>El jeep guarda dos velocidades: la real (la de la física) y una <em>deseada</em>, que es como la velocidad del motor. En el aire se
+              puede acelerar y girar; al aterrizar, si el motor va mucho más rápido que el suelo, las ruedas superan un umbral y patinan hasta
+              agarrar.</li>
+            <li>Cada rueda tiene fricción frontal y lateral, y la lateral es mucho mayor. Por eso el jeep "talla" la curva en vez de girar sobre
+              sí mismo como la nave de Asteroids.</li>
+          </ul>
+        </li>
+        <li><strong>Contexto:</strong> un valle muy abierto, con árboles, plantas y texturas que dan impresión de velocidad. Los choques son
+          algo "pegajosos" a propósito, para que los raptores reaccionen al golpe; la contracara es que un árbol puede comerse todo el momento.</li>
+        <li><strong>Pulido:</strong> casi todo lo transmite la simulación. El trabajo fuerte está en el sonido: el motor y la tierra crujiendo
+          cambian de tono con la velocidad, la fricción y el giro; los choques tienen varios niveles según la velocidad del impacto. Hay polvo,
+          marcas de neumático y cámara lenta en los saltos.</li>
+        <li><strong>Metáfora:</strong> un jeep casi realista promete manejo de auto real, pero el tono absurdo del juego baja esa expectativa.</li>
+        <li><strong>Reglas:</strong> todo da puntos y es imposible terminar con cero; el desafío es el reloj de cinco minutos. Eso hace que
+          chocar se sienta bien y empuja a ir siempre más rápido hacia el próximo objetivo.</li>
+      </ul>
+
+      <div class="callout numbers">
+        <h4>Números clave</h4>
+        <div class="numbers-grid">
+          <div><b>6</b><span>teclas, todas binarias</span></div>
+          <div><b>G3 · S2</b><span>Gravity y Sensitivity del eje de giro</span></div>
+          <div><b>G3 · S3</b><span>los del eje de avance (Dead 0,001 en ambos)</span></div>
+          <div><b>4</b><span>raycasts hacen de ruedas</span></div>
+          <div><b>2</b><span>velocidades: deseada (motor) y real</span></div>
+        </div>
+      </div>
+
+      <h2>1. El jeep, pieza por pieza</h2>
+      <p>
+        Sandbox de la mecánica: una caja con cuatro raycasts sobre un terreno propio, con baches, una rampa y árboles. Los rayos rojos son las
+        "ruedas" reales; los cilindros son solo su dibujo. Arriba a la izquierda se comparan las teclas (raya gris) con el eje filtrado (barra), y
+        la velocidad del motor con la real. Los valores de los ejes del modo 1 son los que da el libro.
+      </p>
+    </article>
+
+    <div id="demo-jeep"></div>
+
+    <article class="prose">
+      <div class="callout numbers">
+        <h4>Para medir</h4>
+        <ul>
+          <li><strong>Dura:</strong> Gravity, Dead y Sensitivity de cada eje, y cuánto tarda cada uno en llegar a 1 y en volver a 0.</li>
+          <li><strong>Dura:</strong> fuerza del resorte, amortiguación, gravedad extra, fricciones y umbral de deslizamiento.</li>
+          <li><strong>Dura:</strong> la diferencia entre la velocidad del motor y la real al aterrizar.</li>
+          <li><strong>Blanda:</strong> ¿se siente pesado? ¿Talla la curva o patina? ¿Los choques suenan como lo que se ve?</li>
+        </ul>
+      </div>
+      <p>
+        Relacionado: el <a href="07-metricas-de-respuesta.html">capítulo 7</a> (envolventes y filtrado), el
+        <a href="../laboratorio/curvas-de-respuesta.html">laboratorio de curvas</a> (suavizados) y el
+        <a href="09-metricas-de-pulido.html">capítulo 9</a> (el sonido como pulido).
+      </p>
+    </article>
+  </main>
+
+  <script type="module">
+    import '../assets/js/core/nav.js';
+    import { buildToc } from '../assets/js/core/toc.js';
+    import { mountJeep } from '../assets/js/demos/ch16-jeep.js';
+    mountJeep('#demo-jeep');
+    buildToc();
+  </script>
+</body>
+</html>
